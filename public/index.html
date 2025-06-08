@@ -237,7 +237,6 @@
         .navigation-buttons {
             display: flex;
             justify-content: space-between;
-            gap: 10px;
             margin-bottom: 40px;
         }
 
@@ -263,11 +262,6 @@
 
         .submit-button {
             background: #28a745;
-            color: white;
-        }
-
-        .check-button {
-            background: #17a2b8;
             color: white;
         }
 
@@ -329,6 +323,16 @@
         .question-number.answered {
             background: #e7f3ff;
             border-color: #4a90e2;
+        }
+
+        .question-number.correct {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+
+        .question-number.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
         }
 
         /* Results Page */
@@ -409,15 +413,6 @@
                 padding: 20px;
             }
 
-            .navigation-buttons {
-                flex-wrap: wrap;
-            }
-            
-            .nav-button {
-                flex: 1;
-                min-width: 100px;
-            }
-            
             .question-grid {
                 grid-template-columns: repeat(auto-fill, minmax(35px, 1fr));
             }
@@ -482,7 +477,6 @@
 
             <div class="navigation-buttons">
                 <button class="nav-button prev-button" id="prevButton" onclick="previousQuestion()">← Previous</button>
-                <button class="nav-button check-button" id="checkButton" onclick="checkAnswer()" style="display: none;">Check Answer</button>
                 <button class="nav-button next-button" id="nextButton" onclick="nextQuestion()">Next →</button>
             </div>
 
@@ -510,6 +504,7 @@
     </div>
 
     <script>
+        
         // Quiz Data
         const quizData = {
             part1: [
@@ -1737,12 +1732,14 @@
         let timerInterval = null;
         let secondsElapsed = 0;
         let isReviewMode = false;
+        let questionResults = []; // Track results for navigator
 
         // Initialize Quiz
         function startQuiz(part) {
             currentPart = part;
             currentQuestionIndex = 0;
             userAnswers = [];
+            questionResults = [];
             secondsElapsed = 0;
             showingRationale = false;
             isReviewMode = false;
@@ -1780,6 +1777,10 @@
             const questions = currentPart === 1 ? quizData.part1 : quizData.part2;
             const question = questions[currentQuestionIndex];
             
+            // Reset state for new question
+            showingRationale = false;
+            selectedAnswer = userAnswers[currentQuestionIndex] !== undefined ? userAnswers[currentQuestionIndex] : null;
+            
             document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
             document.getElementById('percentComplete').textContent = Math.round(((currentQuestionIndex + 1) / 50) * 100);
             document.getElementById('questionText').textContent = question.question;
@@ -1788,15 +1789,13 @@
             updateNavigationButtons();
             updateQuestionNavigator();
             
-            // Reset rationale and check button
+            // Hide rationale box when showing new question
             document.getElementById('rationaleBox').style.display = 'none';
-            document.getElementById('checkButton').style.display = 'none';
-            showingRationale = false;
-            selectedAnswer = userAnswers[currentQuestionIndex] || null;
             
-            // If user already answered this question, show the check button
-            if (userAnswers[currentQuestionIndex] !== undefined && !isReviewMode) {
-                document.getElementById('checkButton').style.display = 'inline-block';
+            // If in review mode and question was answered, show the rationale
+            if (isReviewMode && userAnswers[currentQuestionIndex] !== undefined) {
+                // Delay showing rationale to ensure options are rendered first
+                setTimeout(() => showRationale(), 10);
             }
         }
 
@@ -1808,19 +1807,30 @@
                 const optionDiv = document.createElement('div');
                 optionDiv.className = 'option';
                 
-                if (userAnswers[currentQuestionIndex] === index) {
+                // Only show selected state if not showing rationale
+                if (!showingRationale && userAnswers[currentQuestionIndex] === index) {
                     optionDiv.classList.add('selected');
                 }
                 
+                // Only show correct/incorrect if showing rationale for current question
                 if (showingRationale) {
                     if (index === question.correct) {
                         optionDiv.classList.add('correct');
-                    } else if (userAnswers[currentQuestionIndex] === index) {
+                    } else if (userAnswers[currentQuestionIndex] === index && index !== question.correct) {
                         optionDiv.classList.add('incorrect');
+                    }
+                    
+                    // Update selected state during rationale
+                    if (userAnswers[currentQuestionIndex] === index) {
+                        optionDiv.classList.add('selected');
                     }
                 }
                 
-                optionDiv.onclick = () => selectAnswer(index);
+                optionDiv.onclick = () => {
+                    if (!showingRationale && !isReviewMode) {
+                        selectAnswer(index);
+                    }
+                };
                 
                 optionDiv.innerHTML = `
                     <span class="option-label">${String.fromCharCode(65 + index)}</span>
@@ -1832,27 +1842,19 @@
         }
 
         function selectAnswer(index) {
-            if (showingRationale) return;
-            
             selectedAnswer = index;
             userAnswers[currentQuestionIndex] = index;
             
             // Update option display
             document.querySelectorAll('.option').forEach((opt, i) => {
+                opt.classList.remove('selected');
                 if (i === index) {
                     opt.classList.add('selected');
-                } else {
-                    opt.classList.remove('selected');
                 }
             });
             
-            // Show check answer button
-            document.getElementById('checkButton').style.display = 'inline-block';
-        }
-
-        function checkAnswer() {
-            showRationale();
-            document.getElementById('checkButton').style.display = 'none';
+            // Auto-show rationale after selection
+            setTimeout(() => showRationale(), 500);
         }
 
         function showRationale() {
@@ -1861,14 +1863,13 @@
             
             showingRationale = true;
             
-            // Update options to show correct/incorrect
-            document.querySelectorAll('.option').forEach((opt, i) => {
-                if (i === question.correct) {
-                    opt.classList.add('correct');
-                } else if (i === selectedAnswer && i !== question.correct) {
-                    opt.classList.add('incorrect');
-                }
-            });
+            // Store result for question navigator
+            if (!isReviewMode && questionResults[currentQuestionIndex] === undefined) {
+                questionResults[currentQuestionIndex] = userAnswers[currentQuestionIndex] === question.correct;
+            }
+            
+            // Re-render options with correct/incorrect states
+            renderOptions(question);
             
             // Show rationale box
             document.getElementById('rationaleText').textContent = question.rationale;
@@ -1882,11 +1883,6 @@
             if (currentQuestionIndex > 0) {
                 currentQuestionIndex--;
                 showQuestion();
-                
-                // In review mode, automatically show the rationale
-                if (isReviewMode && userAnswers[currentQuestionIndex] !== undefined) {
-                    showRationale();
-                }
             }
         }
 
@@ -1896,11 +1892,6 @@
             if (currentQuestionIndex < questions.length - 1) {
                 currentQuestionIndex++;
                 showQuestion();
-                
-                // In review mode, automatically show the rationale
-                if (isReviewMode && userAnswers[currentQuestionIndex] !== undefined) {
-                    showRationale();
-                }
             } else {
                 // Quiz complete
                 showResults();
@@ -1910,11 +1901,6 @@
         function goToQuestion(index) {
             currentQuestionIndex = index;
             showQuestion();
-            
-            // In review mode, automatically show the rationale
-            if (isReviewMode && userAnswers[currentQuestionIndex] !== undefined) {
-                showRationale();
-            }
         }
 
         function updateNavigationButtons() {
@@ -1949,9 +1935,10 @@
 
         function updateQuestionNavigator() {
             const numbers = document.querySelectorAll('.question-number');
+            const questions = currentPart === 1 ? quizData.part1 : quizData.part2;
             
             numbers.forEach((num, index) => {
-                num.classList.remove('current', 'answered');
+                num.classList.remove('current', 'answered', 'correct', 'incorrect');
                 
                 if (index === currentQuestionIndex) {
                     num.classList.add('current');
@@ -1959,6 +1946,16 @@
                 
                 if (userAnswers[index] !== undefined) {
                     num.classList.add('answered');
+                    
+                    // Show correct/incorrect in review mode or for completed questions
+                    if (isReviewMode || questionResults[index] !== undefined) {
+                        const question = questions[index];
+                        if (userAnswers[index] === question.correct) {
+                            num.classList.add('correct');
+                        } else {
+                            num.classList.add('incorrect');
+                        }
+                    }
                 }
             });
         }
@@ -2003,15 +2000,9 @@
             document.getElementById('resultsPage').style.display = 'none';
             document.getElementById('quizPage').style.display = 'block';
             showQuestion();
-            
-            // In review mode, automatically show the rationale
-            if (userAnswers[currentQuestionIndex] !== undefined) {
-                showRationale();
-            }
         }
 
         function restartQuiz() {
-            isReviewMode = false;
             startQuiz(currentPart);
         }
 
