@@ -1,4 +1,1837 @@
-function selectAnswer(index) {
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fluid & Electrolyte NCLEX Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Landing Page Styles */
+        .landing-page {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .book-icon {
+            font-size: 80px;
+            margin-bottom: 30px;
+        }
+
+        .landing-page h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #1a1a1a;
+        }
+
+        .landing-page p {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 50px;
+        }
+
+        .quiz-cards {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .quiz-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            width: 350px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .quiz-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .quiz-card.part1 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .quiz-card.part2 {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .quiz-card .number {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .quiz-card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .quiz-card p {
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .start-button {
+            background: white;
+            color: #333;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-card.part1 .start-button {
+            color: #667eea;
+        }
+
+        .quiz-card.part2 .start-button {
+            color: #f093fb;
+        }
+
+        .start-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Quiz Page Styles */
+        .quiz-page {
+            display: none;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 40px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .quiz-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .timer {
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        .progress-info {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .question-counter {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .percentage-complete {
+            font-size: 0.9rem;
+            color: #999;
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            color: #1a1a1a;
+        }
+
+        .options {
+            margin-bottom: 40px;
+        }
+
+        .option {
+            display: flex;
+            align-items: flex-start;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .option:hover {
+            background: #e9ecef;
+            border-color: #dee2e6;
+        }
+
+        .option.selected {
+            background: #e7f3ff;
+            border-color: #4a90e2;
+        }
+
+        .option.correct {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+
+        .option.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+
+        .option-label {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            background: white;
+            border-radius: 50%;
+            margin-right: 15px;
+            font-weight: 600;
+            color: #666;
+            flex-shrink: 0;
+        }
+
+        .option.selected .option-label {
+            background: #4a90e2;
+            color: white;
+        }
+
+        .option-text {
+            flex: 1;
+            line-height: 1.5;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 40px;
+        }
+
+        .nav-button {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .prev-button {
+            background: #e9ecef;
+            color: #666;
+        }
+
+        .next-button {
+            background: #4a90e2;
+            color: white;
+        }
+
+        .submit-button {
+            background: #28a745;
+            color: white;
+        }
+
+        .check-button {
+            background: #17a2b8;
+            color: white;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Question Navigator */
+        .question-navigator {
+            border-top: 1px solid #eee;
+            padding-top: 30px;
+        }
+
+        .navigator-title {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .question-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+            gap: 8px;
+            max-width: 600px;
+        }
+
+        .question-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: white;
+        }
+
+        .question-number:hover {
+            background: #f8f9fa;
+            border-color: #4a90e2;
+        }
+
+        .question-number.current {
+            background: #4a90e2;
+            color: white;
+            border-color: #4a90e2;
+        }
+
+        .question-number.answered {
+            background: #e7f3ff;
+            border-color: #4a90e2;
+        }
+
+        /* Results Page */
+        .results-page {
+            display: none;
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .results-icon {
+            font-size: 80px;
+            margin-bottom: 30px;
+        }
+
+        .results-page h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #1a1a1a;
+        }
+
+        .score-display {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #4a90e2;
+            margin-bottom: 20px;
+        }
+
+        .score-message {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 40px;
+        }
+
+        .results-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .rationale-box {
+            background: #f8f9fa;
+            border-left: 4px solid #4a90e2;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .rationale-box h4 {
+            color: #4a90e2;
+            margin-bottom: 10px;
+        }
+
+        .rationale-box p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .quiz-cards {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .quiz-card {
+                width: 100%;
+                max-width: 350px;
+            }
+
+            .quiz-page {
+                padding: 20px;
+            }
+
+            .navigation-buttons {
+                flex-wrap: wrap;
+            }
+            
+            .nav-button {
+                flex: 1;
+                min-width: 100px;
+            }
+            
+            .question-grid {
+                grid-template-columns: repeat(auto-fill, minmax(35px, 1fr));
+            }
+
+            .question-number {
+                width: 35px;
+                height: 35px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Landing Page -->
+        <div class="landing-page" id="landingPage">
+            <div class="book-icon">📘</div>
+            <h1>Fluid & Electrolyte NCLEX Quiz</h1>
+            <p>Comprehensive practice with 100 NCLEX-style questions</p>
+            
+            <div class="quiz-cards">
+                <div class="quiz-card part1">
+                    <div class="number">1</div>
+                    <h2>Part 1: Core Concepts</h2>
+                    <p>50 questions covering fundamental fluid and electrolyte concepts</p>
+                    <button class="start-button" onclick="startQuiz(1)">Start Part 1</button>
+                </div>
+                
+                <div class="quiz-card part2">
+                    <div class="number">2</div>
+                    <h2>Part 2: Advanced Practice</h2>
+                    <p>50 questions with complex clinical scenarios</p>
+                    <button class="start-button" onclick="startQuiz(2)">Start Part 2</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz Page -->
+        <div class="quiz-page" id="quizPage">
+            <div class="quiz-header">
+                <div class="quiz-title">
+                    📘 NCLEX Practice Quiz - <span id="partTitle">Part 1</span>
+                </div>
+                <div class="timer">⏱️ <span id="timer">00:00:00</span></div>
+            </div>
+
+            <div class="progress-info">
+                <div class="question-counter">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">50</span></div>
+                <div class="percentage-complete"><span id="percentComplete">0</span>% Complete</div>
+            </div>
+
+            <div class="question-text" id="questionText">Loading question...</div>
+
+            <div class="options" id="optionsContainer">
+                <!-- Options will be dynamically inserted here -->
+            </div>
+
+            <div class="rationale-box" id="rationaleBox" style="display: none;">
+                <h4>Rationale:</h4>
+                <p id="rationaleText"></p>
+            </div>
+
+            <div class="navigation-buttons">
+                <button class="nav-button prev-button" id="prevButton" onclick="previousQuestion()">← Previous</button>
+                <button class="nav-button check-button" id="checkButton" onclick="checkAnswer()" style="display: none;">Check Answer</button>
+                <button class="nav-button next-button" id="nextButton" onclick="nextQuestion()">Next →</button>
+            </div>
+
+            <div class="question-navigator">
+                <div class="navigator-title">Question Navigator</div>
+                <div class="question-grid" id="questionGrid">
+                    <!-- Question numbers will be dynamically inserted here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Page -->
+        <div class="results-page" id="resultsPage">
+            <div class="results-icon">🎉</div>
+            <h2>Quiz Complete!</h2>
+            <div class="score-display" id="scoreDisplay">0/0</div>
+            <div class="score-message" id="scoreMessage">Calculating your results...</div>
+            
+            <div class="results-buttons">
+                <button class="nav-button" onclick="reviewQuiz()">Review Answers</button>
+                <button class="nav-button submit-button" onclick="restartQuiz()">Try Again</button>
+                <button class="nav-button" onclick="backToHome()">Back to Home</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Quiz Data
+        const quizData = {
+            part1: [
+                // Fluid Volume Deficit Questions (1-10)
+                {
+                    id: 1,
+                    question: "A nurse is caring for a patient who has been experiencing severe diarrhea for 3 days. The patient's blood pressure is 88/56 mmHg, heart rate is 118 bpm, and skin turgor is poor. Laboratory results show: Hgb 18 g/dL, Hct 54%, BUN 45 mg/dL, and urine specific gravity 1.035. Which intervention should the nurse anticipate FIRST?",
+                    options: [
+                        "Administer 0.45% sodium chloride at 125 mL/hr",
+                        "Administer lactated Ringer's solution at 200 mL/hr",
+                        "Encourage oral fluid intake of 2000 mL/day",
+                        "Insert a urinary catheter to monitor output"
+                    ],
+                    correct: 1,
+                    rationale: "The patient presents with severe hypovolemia as evidenced by hypotension (BP 88/56), tachycardia, and hemoconcentration (elevated Hgb, Hct, BUN, and urine specific gravity). The FIRST priority is to restore intravascular volume with an isotonic solution. Lactated Ringer's is the most appropriate choice as it expands plasma volume rapidly and contains electrolytes lost through diarrhea."
+                },
+                {
+                    id: 2,
+                    question: "A patient with hypovolemia is receiving IV fluid resuscitation. Which assessment finding would indicate to the nurse that the fluid therapy is becoming excessive?",
+                    options: [
+                        "Blood pressure increases from 90/60 to 118/76 mmHg",
+                        "Urine output increases to 50 mL/hour",
+                        "Development of bilateral crackles in lung bases",
+                        "Heart rate decreases from 110 to 88 bpm"
+                    ],
+                    correct: 2,
+                    rationale: "Bilateral crackles indicate fluid accumulation in the lungs, suggesting fluid volume excess and potential pulmonary edema - a serious complication of over-resuscitation. This finding requires immediate intervention to prevent respiratory compromise."
+                },
+                {
+                    id: 3,
+                    question: "A nurse is teaching a patient who experiences frequent episodes of mild hypovolemia due to excessive sweating during marathon training. Which fluid replacement strategy demonstrates the patient's understanding of appropriate self-management?",
+                    options: [
+                        "I'll drink plain water throughout my runs to stay hydrated",
+                        "I'll take salt tablets before each training session",
+                        "I'll drink sports drinks containing electrolytes during long runs",
+                        "I'll limit fluid intake to prevent cramping while running"
+                    ],
+                    correct: 2,
+                    rationale: "Sports drinks containing electrolytes provide both water and electrolyte replacement, addressing the proportional losses that occur with sweating (isotonic fluid loss). This matches the pathophysiology of hypovolemia where water and electrolytes are lost in equal proportions."
+                },
+                {
+                    id: 4,
+                    question: "A patient admitted with severe dehydration has the following vital signs: BP 86/48 mmHg, HR 128 bpm, RR 24/min, T 101.2°F. After initiating IV fluid resuscitation with 0.9% normal saline, which parameter change would BEST indicate improved tissue perfusion?",
+                    options: [
+                        "Temperature decreases to 99.0°F",
+                        "Respiratory rate decreases to 18/min",
+                        "Capillary refill time improves from 5 to 2 seconds",
+                        "Patient reports decreased thirst"
+                    ],
+                    correct: 2,
+                    rationale: "Capillary refill time directly reflects peripheral perfusion status. Improvement from 5 seconds (severely delayed) to 2 seconds (normal) indicates restored tissue perfusion at the microcirculatory level."
+                },
+                {
+                    id: 5,
+                    question: "An elderly patient with hypovolemia secondary to poor oral intake is receiving IV fluid replacement. The nurse notes the patient becomes increasingly confused after receiving 1000 mL of 0.45% sodium chloride over 2 hours. What is the MOST likely explanation for this change?",
+                    options: [
+                        "The hypotonic solution caused cerebral edema",
+                        "The patient is experiencing worsening dehydration",
+                        "This represents normal aging changes",
+                        "The infusion rate was too slow"
+                    ],
+                    correct: 0,
+                    rationale: "Hypotonic solutions (0.45% NaCl) should only be used after the patient is hemodynamically stable because they shift fluid from intravascular to intracellular spaces. Rapid administration in hypovolemic patients can cause cerebral edema as water moves into brain cells, manifesting as confusion or altered mental status."
+                },
+                {
+                    id: 6,
+                    question: "A marathon runner presents to the emergency department with severe muscle cramps, dizziness, and dry mucous membranes after completing a race in 95°F weather. Initial treatment with 2 liters of D5W results in worsening confusion and a seizure. What is the MOST likely cause of this deterioration?",
+                    options: [
+                        "Hyperglycemia from dextrose administration",
+                        "Acute hyponatremia from free water administration",
+                        "Hypocalcemia from dilution",
+                        "Continued hypovolemia requiring more fluids"
+                    ],
+                    correct: 1,
+                    rationale: "The runner likely had isotonic fluid losses (sweat contains sodium). Administering D5W (free water after dextrose metabolism) without electrolytes diluted the remaining serum sodium, causing acute hyponatremia. This leads to cerebral edema, confusion, and seizures."
+                },
+                {
+                    id: 7,
+                    question: "A patient with chronic kidney disease develops hypovolemia from vomiting. The nurse notes the following: BP 92/58 mmHg, K+ 5.8 mEq/L, creatinine 3.2 mg/dL. Which IV fluid would be MOST appropriate for initial resuscitation?",
+                    options: [
+                        "Lactated Ringer's solution",
+                        "0.9% normal saline",
+                        "D5W with 20 mEq KCl",
+                        "0.45% sodium chloride"
+                    ],
+                    correct: 1,
+                    rationale: "Normal saline (0.9% NaCl) is the safest choice for this patient. With hyperkalemia (K+ 5.8) and kidney disease, fluids containing potassium must be avoided. Lactated Ringer's contains 4 mEq/L of potassium."
+                },
+                {
+                    id: 8,
+                    question: "A nurse is monitoring a patient with severe hypovolemia who is receiving rapid IV fluid resuscitation. Which assessment finding would require the nurse to slow the infusion rate?",
+                    options: [
+                        "Central venous pressure increases from 2 to 8 mmHg",
+                        "Jugular veins become visible at 45-degree angle",
+                        "Blood pressure increases to 130/85 mmHg",
+                        "Heart rate decreases from 115 to 95 bpm"
+                    ],
+                    correct: 1,
+                    rationale: "Visible jugular veins at 45 degrees indicate elevated venous pressure and potential fluid overload. Normal jugular venous distention should not be visible above the clavicle when the patient is at 45 degrees. This early sign of fluid excess requires slowing the infusion to prevent pulmonary edema."
+                },
+                {
+                    id: 9,
+                    question: "A patient with fluid volume deficit is transitioning from IV to oral fluid replacement. Which beverage would be MOST appropriate to recommend?",
+                    options: [
+                        "Black coffee",
+                        "Oral rehydration solution",
+                        "Diet cola",
+                        "Beer"
+                    ],
+                    correct: 1,
+                    rationale: "Oral rehydration solutions contain balanced electrolytes and glucose for optimal absorption, addressing both water and electrolyte components of isotonic fluid loss. Coffee, cola, and beer are diuretics that would worsen hypovolemia."
+                },
+                {
+                    id: 10,
+                    question: "A patient with hypovolemia has the following lab values: Hgb 16 g/dL, Hct 48%, BUN 35 mg/dL, urine specific gravity 1.030. These findings indicate:",
+                    options: [
+                        "Hemodilution",
+                        "Hemoconcentration",
+                        "Normal hydration status",
+                        "Renal failure"
+                    ],
+                    correct: 1,
+                    rationale: "Hemoconcentration occurs in fluid volume deficit when blood becomes more concentrated due to water loss. This results in elevated Hgb, Hct, BUN, and urine specific gravity as the kidneys conserve water."
+                },
+                // Fluid Volume Excess Questions (11-20)
+                {
+                    id: 11,
+                    question: "A patient with heart failure is admitted with bilateral pitting edema, jugular venous distention, and crackles throughout lung fields. Laboratory results show: Na+ 128 mEq/L, Hgb 9.8 g/dL, BUN 15 mg/dL. Which intervention addresses the PRIMARY problem?",
+                    options: [
+                        "Administer 3% sodium chloride IV",
+                        "Transfuse packed red blood cells",
+                        "Administer furosemide 40 mg IV",
+                        "Restrict sodium intake to 2 grams daily"
+                    ],
+                    correct: 2,
+                    rationale: "The patient exhibits classic signs of fluid volume excess (FVE) with pulmonary congestion. The lab values show hemodilution (low sodium, hemoglobin, and BUN), confirming FVE rather than true anemia or hyponatremia. Furosemide, a loop diuretic, directly addresses the excess fluid by promoting diuresis."
+                },
+                {
+                    id: 12,
+                    question: "A patient receiving treatment for fluid volume excess develops muscle weakness and cardiac arrhythmias after receiving furosemide 80 mg IV. Which electrolyte imbalance is MOST likely responsible?",
+                    options: [
+                        "Hypernatremia",
+                        "Hypokalemia",
+                        "Hypercalcemia",
+                        "Hypermagnesemia"
+                    ],
+                    correct: 1,
+                    rationale: "Loop diuretics like furosemide cause significant potassium loss through increased urinary excretion. Hypokalemia manifests as muscle weakness and cardiac arrhythmias (flattened T waves, U waves, PVCs). This is a common and dangerous side effect requiring monitoring and replacement."
+                },
+                {
+                    id: 13,
+                    question: "An elderly patient with fluid volume excess is placed on fluid restriction of 1000 mL/24 hours. Which distribution plan would be MOST appropriate?",
+                    options: [
+                        "500 mL days, 500 mL nights",
+                        "400 mL days, 400 mL evenings, 200 mL nights",
+                        "750 mL days, 250 mL nights",
+                        "333 mL every 8 hours"
+                    ],
+                    correct: 1,
+                    rationale: "This distribution (400-400-200) best accommodates the patient's needs throughout the day. Most oral medications are given during day/evening shifts, requiring fluid. Patients are typically more active and thirsty during daytime. The smaller night allocation reduces nocturia and sleep disruption while maintaining comfort."
+                },
+                {
+                    id: 14,
+                    question: "A patient with cirrhosis develops ascites with the following assessment: abdominal girth 110 cm, weight gain 8 kg over 2 weeks, 3+ pitting edema bilaterally. The patient's serum albumin is 2.1 g/dL. What is the PRIMARY mechanism causing this fluid shift?",
+                    options: [
+                        "Increased capillary hydrostatic pressure",
+                        "Decreased plasma oncotic pressure",
+                        "Increased capillary permeability",
+                        "Lymphatic obstruction"
+                    ],
+                    correct: 1,
+                    rationale: "Low albumin (normal 3.5-5.0 g/dL) directly causes decreased plasma oncotic pressure. Albumin maintains the osmotic gradient that keeps fluid in vessels. With cirrhosis, the liver cannot produce adequate albumin, allowing fluid to shift into interstitial spaces (edema) and peritoneal cavity (ascites)."
+                },
+                {
+                    id: 15,
+                    question: "During shift report, the nurse learns a patient with heart failure gained 2.5 kg overnight despite fluid restriction. Morning labs show: Na+ 125 mEq/L, K+ 3.2 mEq/L. Which medication combination would the nurse question?",
+                    options: [
+                        "Furosemide 40 mg PO daily and spironolactone 25 mg PO daily",
+                        "Hydrochlorothiazide 25 mg PO daily and lisinopril 10 mg PO daily",
+                        "Furosemide 40 mg PO BID and metolazone 5 mg PO daily",
+                        "Torsemide 20 mg PO daily and metoprolol 50 mg PO BID"
+                    ],
+                    correct: 2,
+                    rationale: "Combining two potent diuretics (furosemide, a loop diuretic, and metolazone, a thiazide-like diuretic) in a patient with hyponatremia (125 mEq/L) and hypokalemia (3.2 mEq/L) is dangerous. This combination can cause severe electrolyte depletion and dehydration."
+                },
+                {
+                    id: 16,
+                    question: "A patient with fluid volume excess is experiencing severe dyspnea with pink, frothy sputum. Vital signs: BP 170/100 mmHg, HR 110 bpm, RR 32/min, O2 sat 82% on room air. After placing the patient in high-Fowler's position and applying oxygen, what is the NEXT priority intervention?",
+                    options: [
+                        "Insert an indwelling urinary catheter",
+                        "Administer morphine sulfate 2 mg IV",
+                        "Administer furosemide 40 mg IV",
+                        "Start continuous cardiac monitoring"
+                    ],
+                    correct: 2,
+                    rationale: "The patient is experiencing acute pulmonary edema (pink frothy sputum, severe dyspnea, hypoxia), a life-threatening complication of FVE. After positioning and oxygen, immediate diuresis with IV furosemide is critical to reduce pulmonary congestion."
+                },
+                {
+                    id: 17,
+                    question: "A patient with severe fluid volume excess is receiving continuous renal replacement therapy (CRRT). Two hours into treatment, the patient develops hypotension, muscle cramps, and dizziness. What is the MOST appropriate initial nursing action?",
+                    options: [
+                        "Increase the ultrafiltration rate",
+                        "Administer a 250 mL normal saline bolus",
+                        "Decrease the ultrafiltration rate",
+                        "Stop the treatment and notify the physician"
+                    ],
+                    correct: 2,
+                    rationale: "The patient is experiencing symptoms of too-rapid fluid removal (disequilibrium syndrome). Decreasing the ultrafiltration rate allows more gradual fluid removal while continuing treatment. This prevents sudden fluid shifts that cause hypotension and cramping."
+                },
+                {
+                    id: 18,
+                    question: "A patient with fluid volume excess has been on fluid restriction and diuretic therapy for 3 days. Which assessment finding BEST indicates the treatment is effective?",
+                    options: [
+                        "Urine specific gravity increases from 1.003 to 1.015",
+                        "Serum sodium increases from 128 to 135 mEq/L",
+                        "Patient reports decreased thirst",
+                        "Bilateral crackles are now heard only in bases"
+                    ],
+                    correct: 0,
+                    rationale: "Urine specific gravity normalizing from very dilute (1.003) to normal range (1.010-1.025) indicates the kidneys are no longer excreting excess water to correct FVE. This shows fluid balance is being restored."
+                },
+                {
+                    id: 19,
+                    question: "A nurse is assessing a patient for fluid volume excess. Which finding would MOST strongly support this diagnosis?",
+                    options: [
+                        "Bounding pulse",
+                        "Flat neck veins when supine",
+                        "Weight gain of 3 kg in 24 hours",
+                        "Specific gravity 1.035"
+                    ],
+                    correct: 2,
+                    rationale: "Rapid weight gain (1 kg = 1 L fluid) is the most reliable indicator of fluid retention. A 3 kg gain in 24 hours represents 3 liters of retained fluid, clearly indicating fluid volume excess."
+                },
+                {
+                    id: 20,
+                    question: "A patient with heart failure and fluid overload has the following morning weights: Monday 165 lbs, Tuesday 167 lbs, Wednesday 170 lbs. This weight pattern indicates:",
+                    options: [
+                        "Normal daily variation",
+                        "Increasing fluid retention",
+                        "Medication non-compliance",
+                        "Improved nutritional status"
+                    ],
+                    correct: 1,
+                    rationale: "Progressive weight gain over consecutive days in a heart failure patient indicates increasing fluid retention. The 5-pound gain over 3 days represents approximately 2.3 liters of retained fluid, requiring intervention."
+                },
+                // IV Fluids Questions (21-30)
+                {
+                    id: 21,
+                    question: "A trauma patient arrives with hemorrhagic shock. Blood pressure is 70/40 mmHg and heart rate is 140 bpm. While waiting for blood products, which IV fluid should the nurse prepare for immediate resuscitation?",
+                    options: [
+                        "D5W at 999 mL/hr",
+                        "0.45% sodium chloride at 500 mL/hr",
+                        "Lactated Ringer's at wide open rate",
+                        "3% sodium chloride at 100 mL/hr"
+                    ],
+                    correct: 2,
+                    rationale: "Lactated Ringer's is the optimal choice for hemorrhagic shock. As an isotonic crystalloid, it remains in the intravascular space to expand blood volume rapidly. LR also contains electrolytes similar to plasma and lactate (converted to bicarbonate) to help correct acidosis from poor perfusion."
+                },
+                {
+                    id: 22,
+                    question: "A patient with diabetic ketoacidosis has a blood glucose of 580 mg/dL and serum sodium of 128 mEq/L. After initial treatment with regular insulin, which IV fluid progression would be MOST appropriate?",
+                    options: [
+                        "Start with D5W, then switch to 0.9% NS",
+                        "Start with 0.9% NS, then switch to D5 0.45% NS",
+                        "Start with 3% NaCl, then switch to 0.9% NS",
+                        "Start with LR, then switch to D5LR"
+                    ],
+                    correct: 1,
+                    rationale: "DKA treatment follows a specific fluid protocol. Initial 0.9% NS (isotonic) restores intravascular volume and improves perfusion. Once glucose drops below 250 mg/dL, switching to D5 0.45% NS prevents hypoglycemia while continuing hydration with hypotonic fluid to replace intracellular losses."
+                },
+                {
+                    id: 23,
+                    question: "An elderly patient is admitted with confusion and weakness. Labs show: Na+ 118 mEq/L, serum osmolality 250 mOsm/kg. The physician orders 3% sodium chloride. What is the MOST critical nursing consideration?",
+                    options: [
+                        "Monitor for signs of fluid volume overload",
+                        "Infuse rapidly to correct sodium quickly",
+                        "Limit correction to 10-12 mEq/L in first 24 hours",
+                        "Dilute the solution before administration"
+                    ],
+                    correct: 2,
+                    rationale: "Overly rapid correction of chronic hyponatremia can cause osmotic demyelination syndrome (central pontine myelinolysis), resulting in permanent neurological damage. The safest correction rate is 10-12 mEq/L in 24 hours, or 0.5 mEq/L/hour."
+                },
+                {
+                    id: 24,
+                    question: "A patient receiving chemotherapy has tumor lysis syndrome with the following labs: K+ 6.8 mEq/L, Ca++ 7.2 mg/dL, phosphorus 8.5 mg/dL, uric acid 15 mg/dL. Which IV fluid would BEST protect kidney function?",
+                    options: [
+                        "0.9% normal saline at 100 mL/hr",
+                        "D5W at 200 mL/hr",
+                        "0.45% sodium chloride at 150 mL/hr",
+                        "Lactated Ringer's at 75 mL/hr"
+                    ],
+                    correct: 1,
+                    rationale: "D5W at high rates (200 mL/hr) provides optimal kidney protection in tumor lysis syndrome. The free water (after dextrose metabolism) dilutes and flushes out cellular breakdown products (potassium, phosphorus, uric acid) while avoiding additional electrolytes."
+                },
+                {
+                    id: 25,
+                    question: "A burn patient is receiving the Parkland formula for fluid resuscitation: 4 mL × kg × % burn. The patient weighs 70 kg with 30% burns. How should the nurse administer the calculated 8,400 mL over 24 hours?",
+                    options: [
+                        "Continuous rate of 350 mL/hr for 24 hours",
+                        "4,200 mL in first 8 hours, then 4,200 mL over next 16 hours",
+                        "2,800 mL in first 8 hours, then 5,600 mL over next 16 hours",
+                        "5,600 mL in first 8 hours, then 2,800 mL over next 16 hours"
+                    ],
+                    correct: 1,
+                    rationale: "The Parkland formula requires half the total volume (4,200 mL) in the first 8 hours from burn time, with the remaining half over the next 16 hours. This front-loading compensates for the massive fluid shifts and losses occurring immediately after burn injury."
+                },
+                {
+                    id: 26,
+                    question: "Which statement about isotonic IV fluids is correct?",
+                    options: [
+                        "They cause fluid to shift from cells into vessels",
+                        "They expand only the intravascular compartment",
+                        "They can cause cellular dehydration if used excessively",
+                        "D5W remains isotonic after infusion"
+                    ],
+                    correct: 1,
+                    rationale: "Isotonic fluids have the same osmolality as blood plasma and expand primarily the intravascular space without causing significant fluid shifts between compartments. They are the first choice for treating hypotension and shock."
+                },
+                {
+                    id: 27,
+                    question: "A patient with SIADH has been receiving fluid restriction for 48 hours. Current sodium is 130 mEq/L (was 124). The patient complains of severe thirst and requests ice chips. What is the nurse's BEST response?",
+                    options: [
+                        "Allow unlimited ice chips since they melt to small amounts",
+                        "Explain that ice chips count toward fluid restriction",
+                        "Suggest the patient suck on hard candies instead",
+                        "Request an order to discontinue fluid restriction"
+                    ],
+                    correct: 1,
+                    rationale: "Ice chips must be counted as fluid intake - they melt to approximately half their volume (100 mL ice = 50 mL water). In SIADH, strict fluid restriction is essential to correct hyponatremia by allowing excretion of excess water."
+                },
+                {
+                    id: 28,
+                    question: "A patient in septic shock is receiving aggressive fluid resuscitation. After 3 liters of normal saline, the patient remains hypotensive but develops new bilateral crackles. Which intervention demonstrates appropriate management?",
+                    options: [
+                        "Continue normal saline at 500 mL/hr",
+                        "Switch to hypotonic fluids to reduce sodium load",
+                        "Start norepinephrine infusion for blood pressure support",
+                        "Administer furosemide 40 mg IV"
+                    ],
+                    correct: 2,
+                    rationale: "This patient has received adequate fluid resuscitation (3 liters) but remains hypotensive with signs of fluid overload (crackles). Further fluids will worsen pulmonary edema without improving blood pressure. Septic shock causes vasodilation requiring vasopressor support (norepinephrine) after appropriate fluid loading."
+                },
+                {
+                    id: 29,
+                    question: "A patient is receiving hypotonic IV fluids (0.45% NaCl). Which patient condition would make the nurse question this order?",
+                    options: [
+                        "Hypernatremia with sodium 155 mEq/L",
+                        "Diabetic ketoacidosis after initial resuscitation",
+                        "Increased intracranial pressure",
+                        "Maintenance fluids after surgery"
+                    ],
+                    correct: 2,
+                    rationale: "Hypotonic fluids worsen increased intracranial pressure by causing cellular swelling in the brain. Water moves from the hypotonic solution into brain cells, increasing cerebral edema and potentially causing herniation."
+                },
+                {
+                    id: 30,
+                    question: "A marathon runner presents with altered mental status after drinking excessive water during a race. Serum sodium is 122 mEq/L. The patient has a seizure in the emergency department. After stabilizing the airway, which intervention is MOST appropriate?",
+                    options: [
+                        "Fluid restriction and oral salt tablets",
+                        "0.9% normal saline at 125 mL/hr",
+                        "100 mL of 3% sodium chloride over 10 minutes",
+                        "Furosemide 40 mg IV"
+                    ],
+                    correct: 2,
+                    rationale: "Symptomatic hyponatremia with seizures is a medical emergency requiring immediate partial correction with hypertonic saline. The 100 mL bolus of 3% NaCl will raise sodium by approximately 2-3 mEq/L, enough to stop seizures without risking overcorrection."
+                },
+                // IV Complications Questions (31-40)
+                {
+                    id: 31,
+                    question: "A patient receiving IV antibiotics through a peripheral line complains of burning at the insertion site. The nurse observes a red streak extending 3 inches up the arm from the IV site. The area is warm and tender to touch. What is the PRIORITY nursing action?",
+                    options: [
+                        "Apply warm compresses to the affected area",
+                        "Slow the IV infusion rate",
+                        "Discontinue the IV and restart in opposite extremity",
+                        "Elevate the affected arm on two pillows"
+                    ],
+                    correct: 2,
+                    rationale: "The red streak, warmth, and tenderness indicate phlebitis progressing along the vein path. The IV must be discontinued immediately to prevent further vein damage and potential thrombophlebitis. Restarting in the opposite extremity ensures continued therapy."
+                },
+                {
+                    id: 32,
+                    question: "A patient receiving chemotherapy through a peripheral IV suddenly develops severe burning, swelling, and blanching at the insertion site. The nurse immediately stops the infusion. What is the NEXT priority action?",
+                    options: [
+                        "Apply ice to minimize tissue damage",
+                        "Attempt to aspirate medication from the catheter",
+                        "Remove the IV catheter immediately",
+                        "Inject the manufacturer-recommended antidote"
+                    ],
+                    correct: 1,
+                    rationale: "With vesicant extravasation, attempting to aspirate any remaining medication through the intact catheter may limit tissue exposure. This should be done before removing the catheter, which eliminates this option."
+                },
+                {
+                    id: 33,
+                    question: "A patient receiving total parenteral nutrition through a central line develops sudden chest pain, dyspnea, and hypotension. The nurse notes the IV tubing disconnected at the catheter hub. Which position should the nurse place the patient in IMMEDIATELY?",
+                    options: [
+                        "High-Fowler's position",
+                        "Supine with legs elevated",
+                        "Left lateral Trendelenburg",
+                        "Right lateral with head elevated"
+                    ],
+                    correct: 2,
+                    rationale: "The disconnected central line with sudden cardiopulmonary symptoms indicates air embolism. Left lateral Trendelenburg position traps air in the right atrium's apex, preventing it from entering pulmonary circulation."
+                },
+                {
+                    id: 34,
+                    question: "A nurse starts an IV in an elderly patient with fragile veins. Immediately after insertion, a raised, bruised area forms around the site, though the catheter flushes without resistance. What complication has occurred and what is the appropriate action?",
+                    options: [
+                        "Phlebitis; apply warm compress and monitor",
+                        "Infiltration; remove IV and restart",
+                        "Hematoma; leave IV if patent and apply pressure around site",
+                        "Extravasation; remove IV and notify physician"
+                    ],
+                    correct: 2,
+                    rationale: "A hematoma forms when blood leaks into tissues from vein perforation during insertion or from inadequate pressure after attempts. The raised, bruised area with a patent IV is characteristic. If the IV remains functional, it can be maintained with careful monitoring."
+                },
+                {
+                    id: 35,
+                    question: "During IV push medication administration, the patient complains of dizziness and nausea. The nurse notes facial flushing and mild hypotension. What is the MOST likely cause?",
+                    options: [
+                        "Anaphylactic reaction to medication",
+                        "Speed shock from rapid administration",
+                        "Vagal response to needle insertion",
+                        "Hypoglycemic reaction"
+                    ],
+                    correct: 1,
+                    rationale: "Speed shock occurs when IV medications are pushed too rapidly, causing systemic vasodilation with flushing, dizziness, and hypotension. This is different from anaphylaxis, which includes respiratory symptoms, urticaria, and severe hypotension."
+                },
+                {
+                    id: 36,
+                    question: "A nurse is assessing for IV infiltration. Which finding would confirm this complication?",
+                    options: [
+                        "Blood return when lowering the IV bag",
+                        "Coolness at the insertion site",
+                        "Patient reports burning sensation",
+                        "Red streak along the vein"
+                    ],
+                    correct: 1,
+                    rationale: "Cool temperature at the insertion site indicates fluid entering subcutaneous tissue rather than the warm bloodstream. This is a classic sign of infiltration, along with swelling, blanching, and decreased flow rate."
+                },
+                {
+                    id: 37,
+                    question: "A patient's IV pump alarms for occlusion. The nurse finds no visible problems with the tubing but cannot flush the catheter. Blood does not return when the bag is lowered. What is the MOST likely cause?",
+                    options: [
+                        "Catheter tip against vessel wall",
+                        "Fibrin sheath formation",
+                        "Kinking of external tubing",
+                        "Precipitate formation in catheter"
+                    ],
+                    correct: 1,
+                    rationale: "Fibrin sheath formation occurs when fibrin accumulates around the catheter tip, creating a one-way valve effect. This allows infusion (with pressure from pump) but prevents aspiration/blood return."
+                },
+                {
+                    id: 38,
+                    question: "A patient develops thrombophlebitis at an IV site discontinued 2 days ago. The area is red, warm, and has a palpable cord-like vein. The patient is afebrile with no streaking. What is the MOST appropriate intervention?",
+                    options: [
+                        "Insert new IV at the same site after thrombosis resolves",
+                        "Apply continuous ice packs to reduce inflammation",
+                        "Administer prophylactic antibiotics",
+                        "Apply warm compresses and elevate extremity"
+                    ],
+                    correct: 3,
+                    rationale: "Superficial thrombophlebitis treatment includes warm compresses to promote circulation and healing, elevation to reduce edema, and NSAIDs for inflammation. This conservative management is appropriate for localized thrombophlebitis without systemic signs."
+                },
+                {
+                    id: 39,
+                    question: "A nurse notices the IV pump has been infusing at 250 mL/hr instead of the ordered 125 mL/hr for the past 2 hours. The patient is elderly with a cardiac history. What assessment finding would be MOST concerning?",
+                    options: [
+                        "Weight gain of 0.5 kg from this morning",
+                        "Blood pressure increase from 130/80 to 145/88",
+                        "New onset of bilateral crackles in lung bases",
+                        "Urine output of 100 mL in the past hour"
+                    ],
+                    correct: 2,
+                    rationale: "New bilateral crackles indicate fluid accumulation in lungs (pulmonary edema), the most serious complication of fluid overload in cardiac patients. The extra 250 mL over 2 hours may exceed the compromised heart's ability to manage volume."
+                },
+                {
+                    id: 40,
+                    question: "Which intervention is evidence-based practice for preventing IV-related infections?",
+                    options: [
+                        "Change peripheral IV sites every 96 hours routinely",
+                        "Use chlorhexidine for skin antisepsis",
+                        "Replace IV tubing every 24 hours",
+                        "Use sterile gloves for peripheral IV insertion"
+                    ],
+                    correct: 1,
+                    rationale: "Chlorhexidine is superior to povidone-iodine for skin antisepsis in preventing IV-related infections. Current guidelines recommend changing peripheral IVs only when clinically indicated, not routinely. Clean gloves are acceptable for peripheral IV insertion."
+                },
+                // Acid-Base Balance Questions (41-50)
+                {
+                    id: 41,
+                    question: "A patient presents with anxiety, circumoral numbness, and carpopedal spasms. ABG results show: pH 7.52, PaCO2 28 mmHg, HCO3- 22 mEq/L. Which intervention addresses the underlying cause?",
+                    options: [
+                        "Administer sodium bicarbonate IV",
+                        "Apply oxygen at 2 L/min via nasal cannula",
+                        "Have patient breathe into a paper bag",
+                        "Administer lorazepam 1 mg IV"
+                    ],
+                    correct: 2,
+                    rationale: "The ABG shows respiratory alkalosis (high pH, low CO2, normal HCO3-) caused by hyperventilation. Breathing into a paper bag allows rebreathing of CO2, correcting the alkalosis and resolving symptoms (numbness, spasms from increased nerve excitability)."
+                },
+                {
+                    id: 42,
+                    question: "A COPD patient is admitted with the following ABG: pH 7.33, PaCO2 55 mmHg, HCO3- 30 mEq/L, PaO2 65 mmHg. The patient is alert and oriented with no acute distress. What does this ABG indicate?",
+                    options: [
+                        "Uncompensated respiratory acidosis",
+                        "Partially compensated respiratory acidosis",
+                        "Fully compensated respiratory acidosis",
+                        "Mixed respiratory and metabolic acidosis"
+                    ],
+                    correct: 2,
+                    rationale: "This shows fully compensated respiratory acidosis. The pH is slightly acidic but close to normal (7.35-7.45), indicating full compensation. The primary problem is respiratory acidosis (high CO2 from COPD). The kidneys have compensated by retaining bicarbonate (HCO3- 30, above normal 22-26)."
+                },
+                {
+                    id: 43,
+                    question: "Which condition would the nurse expect to cause metabolic acidosis?",
+                    options: [
+                        "Prolonged vomiting",
+                        "Diabetic ketoacidosis",
+                        "Hyperventilation syndrome",
+                        "Excessive antacid use"
+                    ],
+                    correct: 1,
+                    rationale: "Diabetic ketoacidosis produces ketoacids that overwhelm the body's buffering systems, causing metabolic acidosis. Vomiting causes metabolic alkalosis from loss of stomach acid. Hyperventilation causes respiratory alkalosis. Excessive antacids cause metabolic alkalosis."
+                },
+                {
+                    id: 44,
+                    question: "A patient with severe vomiting for 3 days has the following ABG: pH 7.50, PaCO2 46 mmHg, HCO3- 35 mEq/L. IV normal saline with potassium is infusing. What additional intervention is MOST important?",
+                    options: [
+                        "Increase the IV fluid rate",
+                        "Administer antiemetics",
+                        "Start acetazolamide to decrease bicarbonate",
+                        "Intubate for respiratory support"
+                    ],
+                    correct: 1,
+                    rationale: "The ABG shows metabolic alkalosis (high pH and HCO3-) from loss of gastric acid. The most important intervention is stopping the cause - administering antiemetics to prevent further acid loss."
+                },
+                {
+                    id: 45,
+                    question: "A trauma patient is hyperventilating with a respiratory rate of 40/min. ABG shows: pH 7.55, PaCO2 25 mmHg, HCO3- 21 mEq/L. Two hours later, repeat ABG shows: pH 7.48, PaCO2 25 mmHg, HCO3- 18 mEq/L. What is occurring?",
+                    options: [
+                        "Respiratory acidosis is developing",
+                        "Metabolic compensation is beginning",
+                        "The patient is developing metabolic acidosis",
+                        "Laboratory error in the second result"
+                    ],
+                    correct: 1,
+                    rationale: "The kidneys are beginning to compensate for respiratory alkalosis by excreting bicarbonate. The first ABG shows acute respiratory alkalosis. The second shows the pH moving toward normal as HCO3- decreases, representing normal metabolic compensation."
+                },
+                {
+                    id: 46,
+                    question: "A patient with chronic kidney disease has the following values: pH 7.30, PaCO2 30 mmHg, HCO3- 14 mEq/L, K+ 5.8 mEq/L. Which medication would be MOST appropriate?",
+                    options: [
+                        "Aluminum hydroxide",
+                        "Sodium bicarbonate",
+                        "Furosemide",
+                        "Calcium carbonate"
+                    ],
+                    correct: 1,
+                    rationale: "This patient has partially compensated metabolic acidosis (low pH, low HCO3- with compensatory low CO2) from kidney disease. Sodium bicarbonate directly replaces the buffer, improving acidosis and helping shift potassium intracellularly."
+                },
+                {
+                    id: 47,
+                    question: "A patient post-cardiac arrest has the following ABG: pH 7.15, PaCO2 50 mmHg, HCO3- 17 mEq/L. What type of acid-base imbalance is present?",
+                    options: [
+                        "Respiratory acidosis",
+                        "Metabolic acidosis",
+                        "Mixed acidosis",
+                        "Compensated acidosis"
+                    ],
+                    correct: 2,
+                    rationale: "This is mixed respiratory and metabolic acidosis - both CO2 and HCO3- are moving in directions that decrease pH. During cardiac arrest, respiratory acidosis develops from absent ventilation (high CO2), while metabolic acidosis results from anaerobic metabolism producing lactic acid (low HCO3-)."
+                },
+                {
+                    id: 48,
+                    question: "A patient with aspirin overdose has the following progression of ABGs: Initial: pH 7.45, PaCO2 20 mmHg, HCO3- 14 mEq/L. Four hours later: pH 7.25, PaCO2 25 mmHg, HCO3- 11 mEq/L. What explains this change?",
+                    options: [
+                        "Respiratory compensation is failing",
+                        "Metabolic alkalosis is developing",
+                        "The metabolic acidosis is worsening",
+                        "Laboratory error in measurements"
+                    ],
+                    correct: 2,
+                    rationale: "Aspirin overdose causes a characteristic progression. Initially, salicylates stimulate the respiratory center, causing respiratory alkalosis that masks underlying metabolic acidosis. As toxicity worsens, metabolic acidosis overwhelms respiratory compensation."
+                },
+                {
+                    id: 49,
+                    question: "A patient with the following ABG: pH 7.38, PaCO2 48 mmHg, HCO3- 28 mEq/L is scheduled for surgery. What should the nurse consider?",
+                    options: [
+                        "Cancel surgery due to uncompensated acidosis",
+                        "Proceed with surgery; ABG shows full compensation",
+                        "Administer bicarbonate before surgery",
+                        "Intubate prophylactically for respiratory failure"
+                    ],
+                    correct: 1,
+                    rationale: "This ABG shows fully compensated respiratory acidosis - common in patients with chronic lung disease. The pH is normal (7.38), though the elevated CO2 (48) indicates respiratory acidosis with metabolic compensation (HCO3- 28). Full compensation with normal pH indicates stability."
+                },
+                {
+                    id: 50,
+                    question: "A nurse is caring for a patient with metabolic alkalosis. Which assessment finding would the nurse expect?",
+                    options: [
+                        "Kussmaul respirations",
+                        "Positive Chvostek's sign",
+                        "Hyperactive deep tendon reflexes",
+                        "Deep, rapid breathing"
+                    ],
+                    correct: 1,
+                    rationale: "Alkalosis increases nerve excitability, causing positive Chvostek's sign (facial twitching when tapping the facial nerve). Kussmaul respirations and deep, rapid breathing compensate for metabolic acidosis, not alkalosis. Alkalosis causes hyperactive, not hypoactive reflexes."
+                }
+            ],
+            part2: [
+                // Sodium Imbalances Questions (51-60)
+                {
+                    id: 51,
+                    question: "A patient with SIADH has a serum sodium of 118 mEq/L and presents with confusion and headache. The nurse anticipates which initial treatment?",
+                    options: [
+                        "0.9% normal saline at 150 mL/hr",
+                        "3% sodium chloride at 50 mL/hr with frequent sodium monitoring",
+                        "Fluid restriction to 500 mL/day",
+                        "Demeclocycline 300 mg PO BID"
+                    ],
+                    correct: 1,
+                    rationale: "Symptomatic hyponatremia (confusion, headache) with sodium <120 mEq/L requires careful correction with hypertonic saline. The goal is to raise sodium 4-6 mEq/L in the first 6 hours to relieve symptoms, then no more than 10-12 mEq/L in 24 hours total to prevent osmotic demyelination."
+                },
+                {
+                    id: 52,
+                    question: "An elderly nursing home resident is admitted with altered mental status. Labs show: Na+ 128 mEq/L, serum osmolality 265 mOsm/kg, urine sodium 45 mEq/L, urine osmolality 450 mOsm/kg. The patient appears euvolemic. What is the MOST likely cause?",
+                    options: [
+                        "Dehydration from poor oral intake",
+                        "SIADH from pneumonia",
+                        "Heart failure",
+                        "Diuretic therapy"
+                    ],
+                    correct: 1,
+                    rationale: "The lab pattern indicates SIADH: hyponatremia with inappropriately concentrated urine (osmolality 450) despite low serum osmolality (265). The elevated urine sodium (45) with euvolemia rules out hypovolemic causes. SIADH is common with pneumonia, especially in elderly patients."
+                },
+                {
+                    id: 53,
+                    question: "A patient's sodium drops from 138 to 125 mEq/L over 2 hours during transurethral prostate resection. The patient becomes restless and complains of visual changes. What has occurred?",
+                    options: [
+                        "Acute blood loss",
+                        "TURP syndrome",
+                        "Bladder perforation",
+                        "Septic shock"
+                    ],
+                    correct: 1,
+                    rationale: "TURP syndrome results from systemic absorption of hypotonic irrigating fluid during prostate resection, causing acute dilutional hyponatremia. The rapid drop (13 mEq/L in 2 hours) with neurological symptoms (restlessness, visual changes from cerebral edema) is characteristic."
+                },
+                {
+                    id: 54,
+                    question: "A marathon runner collapses after drinking multiple bottles of water. Serum sodium is 120 mEq/L. The runner is alert but nauseated. What is the MOST appropriate initial treatment?",
+                    options: [
+                        "IV 3% sodium chloride 100 mL bolus",
+                        "Oral salt tablets with restricted fluids",
+                        "IV 0.9% normal saline at 100 mL/hr",
+                        "Observation only with gradual correction"
+                    ],
+                    correct: 1,
+                    rationale: "Exercise-associated hyponatremia in an alert patient without severe symptoms (seizures, coma) can be treated with fluid restriction and oral sodium replacement. This allows controlled correction while avoiding risks of IV hypertonic saline."
+                },
+                {
+                    id: 55,
+                    question: "A patient with diabetes insipidus has the following values: Na+ 155 mEq/L, serum osmolality 320 mOsm/kg, urine specific gravity 1.001. Despite drinking large amounts of water, the patient remains hypernatremic. What intervention is needed?",
+                    options: [
+                        "Fluid restriction to concentrate urine",
+                        "Hypertonic saline administration",
+                        "Desmopressin (DDAVP) therapy",
+                        "Furosemide to increase sodium excretion"
+                    ],
+                    correct: 2,
+                    rationale: "Diabetes insipidus causes inability to concentrate urine due to lack of ADH (central DI) or kidney unresponsiveness (nephrogenic DI). Despite polydipsia, patients can't keep up with urinary losses, causing hypernatremia. Desmopressin replaces ADH in central DI, allowing urine concentration and correction of hypernatremia."
+                },
+                {
+                    id: 56,
+                    question: "A patient admitted with hypernatremia (Na+ 158 mEq/L) is receiving D5W at 150 mL/hr. After 12 hours, the sodium is 148 mEq/L. The patient develops irritability and muscle twitching. What should the nurse do?",
+                    options: [
+                        "Increase D5W rate to 200 mL/hr",
+                        "Switch to 0.45% sodium chloride",
+                        "Slow the infusion rate to 75 mL/hr",
+                        "Add potassium to the current infusion"
+                    ],
+                    correct: 2,
+                    rationale: "The sodium dropped 10 mEq/L in 12 hours (0.83 mEq/hr), which exceeds the safe rate of 0.5 mEq/hr. Rapid correction of chronic hypernatremia can cause cerebral edema as water shifts into brain cells adapted to hyperosmolality. The irritability and twitching suggest early cerebral edema."
+                },
+                {
+                    id: 57,
+                    question: "A patient with cirrhosis and ascites has a sodium of 125 mEq/L. The patient is alert and has no neurological symptoms. Current medications include furosemide and spironolactone. What is the MOST appropriate intervention?",
+                    options: [
+                        "Administer 3% sodium chloride",
+                        "Increase furosemide dose",
+                        "Implement fluid restriction to 1000 mL/day",
+                        "Discontinue all diuretics"
+                    ],
+                    correct: 2,
+                    rationale: "Hypervolemic hyponatremia in cirrhosis results from inability to excrete free water despite total body sodium excess. Fluid restriction is first-line treatment for asymptomatic patients, allowing gradual sodium concentration."
+                },
+                {
+                    id: 58,
+                    question: "A patient's sodium increases from 124 to 140 mEq/L in 18 hours during treatment. The patient develops quadriplegia and difficulty speaking. What complication has occurred?",
+                    options: [
+                        "Cerebral edema",
+                        "Osmotic demyelination syndrome",
+                        "Hypernatremic encephalopathy",
+                        "Cerebrovascular accident"
+                    ],
+                    correct: 1,
+                    rationale: "Osmotic demyelination syndrome (central pontine myelinolysis) results from too-rapid correction of chronic hyponatremia. The 16 mEq/L increase in 18 hours far exceeds safe limits (10-12 mEq/L in 24 hours). Demyelination typically presents 2-6 days after rapid correction with quadriplegia, dysarthria, dysphagia, and altered consciousness."
+                },
+                {
+                    id: 59,
+                    question: "A nurse is assessing a patient with hypernatremia. Which finding would MOST strongly support this diagnosis?",
+                    options: [
+                        "Decreased deep tendon reflexes",
+                        "Sticky mucous membranes",
+                        "Hypothermia",
+                        "Bradycardia"
+                    ],
+                    correct: 1,
+                    rationale: "Cellular dehydration in hypernatremia causes dry, sticky mucous membranes - a classic sign. Hypernatremia typically causes increased (not decreased) reflexes from neuromuscular irritability, hyperthermia (not hypothermia), and tachycardia (not bradycardia) from intravascular volume depletion."
+                },
+                {
+                    id: 60,
+                    question: "Which patient is at highest risk for developing hyponatremia?",
+                    options: [
+                        "Patient taking lithium for bipolar disorder",
+                        "Patient with small cell lung cancer",
+                        "Patient with uncontrolled diabetes mellitus",
+                        "Patient with hyperthyroidism"
+                    ],
+                    correct: 1,
+                    rationale: "Small cell lung cancer commonly causes SIADH with resulting hyponatremia. Lithium causes nephrogenic diabetes insipidus leading to hypernatremia. Uncontrolled diabetes causes hyperglycemia leading to hyperosmolar hypernatremia. Hyperthyroidism doesn't significantly affect sodium levels."
+                },
+                // Potassium Imbalances Questions (61-70)
+                {
+                    id: 61,
+                    question: "A patient with chronic kidney disease has a potassium level of 6.8 mEq/L and the following ECG changes: tall, peaked T waves and widening QRS complex. Which intervention should the nurse prepare to administer FIRST?",
+                    options: [
+                        "Regular insulin 10 units with dextrose 50% 50 mL IV",
+                        "Calcium gluconate 10% 10 mL IV over 2-3 minutes",
+                        "Sodium polystyrene sulfonate 30 g PO",
+                        "Furosemide 40 mg IV"
+                    ],
+                    correct: 1,
+                    rationale: "With severe hyperkalemia (K+ 6.8) and ECG changes indicating cardiac membrane instability, calcium gluconate is the FIRST priority. It stabilizes cardiac membranes within minutes, protecting against lethal arrhythmias, though it doesn't lower potassium levels."
+                },
+                {
+                    id: 62,
+                    question: "A patient with severe vomiting has a potassium of 2.8 mEq/L. The physician orders potassium chloride 40 mEq IVPB. What is the MAXIMUM safe infusion rate?",
+                    options: [
+                        "Over 30 minutes",
+                        "Over 1 hour",
+                        "Over 2 hours",
+                        "Over 4 hours"
+                    ],
+                    correct: 3,
+                    rationale: "IV potassium must NEVER exceed 10 mEq/hour through a peripheral line due to risk of cardiac arrest from rapid infusion. Therefore, 40 mEq must infuse over at least 4 hours. Faster rates exceed safe limits and can cause cardiac standstill, severe pain at injection site, and phlebitis."
+                },
+                {
+                    id: 63,
+                    question: "A patient taking furosemide develops weakness and palpitations. ECG shows flattened T waves and prominent U waves. Potassium level is 3.1 mEq/L. Which food choices should the nurse recommend to supplement prescribed potassium replacement?",
+                    options: [
+                        "Whole grain bread and pasta",
+                        "Bananas and orange juice",
+                        "Milk and cheese products",
+                        "Green leafy vegetables"
+                    ],
+                    correct: 1,
+                    rationale: "Bananas and orange juice are excellent potassium sources, with bananas containing about 400mg and orange juice about 500mg per serving. These complement medical treatment for mild hypokalemia while the patient continues on potassium-wasting diuretics."
+                },
+                {
+                    id: 64,
+                    question: "A patient with hyperkalemia is receiving insulin and glucose therapy. Thirty minutes after administration, the patient becomes diaphoretic and confused. What is the PRIORITY nursing action?",
+                    options: [
+                        "Recheck potassium level",
+                        "Check blood glucose immediately",
+                        "Administer calcium gluconate",
+                        "Increase IV fluid rate"
+                    ],
+                    correct: 1,
+                    rationale: "The symptoms suggest hypoglycemia from insulin administration. While insulin effectively shifts potassium intracellularly, it can cause dangerous hypoglycemia, especially if the dextrose dose was insufficient or metabolized quickly. Immediate glucose testing guides treatment."
+                },
+                {
+                    id: 65,
+                    question: "A patient in diabetic ketoacidosis has the following values: glucose 450 mg/dL, K+ 5.2 mEq/L, pH 7.25. After insulin therapy begins, which potassium change should the nurse anticipate?",
+                    options: [
+                        "Increase due to continued acidosis",
+                        "Remain stable with treatment",
+                        "Decrease requiring supplementation",
+                        "Fluctuate unpredictably"
+                    ],
+                    correct: 2,
+                    rationale: "DKA causes potassium to shift from cells to blood due to acidosis, insulin deficiency, and hyperosmolality. The K+ of 5.2 masks total body potassium depletion. When insulin therapy begins, potassium rapidly shifts back into cells, often requiring aggressive supplementation to prevent dangerous hypokalemia."
+                },
+                {
+                    id: 66,
+                    question: "A patient with hypokalemia (K+ 2.9 mEq/L) is also hypomagnesemic (Mg++ 1.2 mEq/L). Despite potassium replacement, the level remains low. What explains this finding?",
+                    options: [
+                        "The potassium replacement dose is insufficient",
+                        "Magnesium deficiency prevents potassium retention",
+                        "The patient has ongoing GI losses",
+                        "Laboratory error in measurement"
+                    ],
+                    correct: 1,
+                    rationale: "Magnesium is essential for Na-K-ATPase pump function, which maintains intracellular potassium. Without adequate magnesium, cells cannot retain potassium, and it's lost in urine despite replacement. This makes potassium repletion ineffective until magnesium is corrected."
+                },
+                {
+                    id: 67,
+                    question: "A patient's potassium drops from 4.2 to 3.4 mEq/L after starting hydrochlorothiazide. The patient has no symptoms. What is the MOST appropriate intervention?",
+                    options: [
+                        "Discontinue hydrochlorothiazide immediately",
+                        "Add spironolactone to the medication regimen",
+                        "Start IV potassium replacement",
+                        "Increase dietary potassium and recheck in 1 week"
+                    ],
+                    correct: 3,
+                    rationale: "Mild, asymptomatic hypokalemia (3.4 mEq/L) from thiazide diuretics can initially be managed with dietary modification. High-potassium foods often maintain levels adequately with close monitoring. This conservative approach avoids polypharmacy while addressing the deficit."
+                },
+                {
+                    id: 68,
+                    question: "A patient with tumor lysis syndrome develops the following: K+ 7.2 mEq/L, Ca++ 6.8 mg/dL, phosphorus 9.5 mg/dL, uric acid 15 mg/dL. The patient develops tetany. Which intervention addresses the immediate problem?",
+                    options: [
+                        "Calcium gluconate 10% 10 mL IV",
+                        "Insulin with glucose IV",
+                        "Aluminum hydroxide PO",
+                        "Allopurinol 300 mg PO"
+                    ],
+                    correct: 0,
+                    rationale: "Despite severe hyperkalemia, the immediate problem is tetany from hypocalcemia (6.8 mg/dL), worsened by hyperphosphatemia. Calcium gluconate treats both tetany and provides cardiac protection from hyperkalemia."
+                },
+                {
+                    id: 69,
+                    question: "Which medication can contribute to hyperkalemia?",
+                    options: [
+                        "Furosemide",
+                        "Spironolactone",
+                        "Hydrochlorothiazide",
+                        "Metformin"
+                    ],
+                    correct: 1,
+                    rationale: "Spironolactone is a potassium-sparing diuretic that blocks aldosterone, reducing K+ excretion and potentially causing hyperkalemia. Furosemide and hydrochlorothiazide increase K+ excretion, causing hypokalemia. Metformin doesn't significantly affect potassium levels."
+                },
+                {
+                    id: 70,
+                    question: "A patient is receiving treatment for hypokalemia. Which assessment finding indicates the treatment is effective?",
+                    options: [
+                        "Deep tendon reflexes become hyperactive",
+                        "U waves disappear on ECG",
+                        "Respiratory rate increases",
+                        "Patient develops muscle spasms"
+                    ],
+                    correct: 1,
+                    rationale: "U waves are a classic ECG sign of hypokalemia; their disappearance indicates successful potassium correction. Hypokalemia causes hypoactive (not hyperactive) reflexes that normalize with treatment. Muscle weakness (not spasms) improves with potassium replacement."
+                },
+                // Calcium Imbalances Questions (71-80)
+                {
+                    id: 71,
+                    question: "A patient post-thyroidectomy develops circumoral tingling and hand spasms. The nurse taps the patient's face anterior to the ear and observes facial twitching. What is the PRIORITY nursing intervention?",
+                    options: [
+                        "Check serum magnesium level",
+                        "Administer calcium gluconate IV as ordered",
+                        "Apply oxygen at 2 L/min",
+                        "Prepare for emergency intubation"
+                    ],
+                    correct: 1,
+                    rationale: "The patient shows classic signs of acute hypocalcemia following thyroidectomy: circumoral tingling, carpopedal spasms, and positive Chvostek's sign (facial twitching when tapping facial nerve). This suggests inadvertent parathyroid damage or removal during surgery. IV calcium gluconate is the priority to prevent progression to tetany, laryngospasm, and seizures."
+                },
+                {
+                    id: 72,
+                    question: "A patient with chronic kidney disease has the following labs: Ca++ 7.2 mg/dL, phosphorus 7.8 mg/dL, albumin 2.8 g/dL. What should the nurse calculate before determining the severity of hypocalcemia?",
+                    options: [
+                        "Calcium-phosphorus product",
+                        "Corrected calcium level",
+                        "Ionized calcium level",
+                        "Parathyroid hormone level"
+                    ],
+                    correct: 1,
+                    rationale: "With low albumin (2.8 g/dL; normal 3.5-5.0), the total calcium must be corrected since calcium binds to albumin. The formula adds 0.8 mg/dL to measured calcium for each 1 g/dL albumin below 4.0. Here: 7.2 + 0.8(4.0-2.8) = 8.16 mg/dL corrected calcium."
+                },
+                {
+                    id: 73,
+                    question: "A patient receiving chemotherapy develops severe diarrhea and the following symptoms: muscle cramps, paresthesias, and hyperactive reflexes. Labs show: Ca++ 7.8 mg/dL, Mg++ 1.1 mEq/L, K+ 3.2 mEq/L. Which intervention should be implemented FIRST?",
+                    options: [
+                        "Potassium chloride 40 mEq IVPB",
+                        "Calcium gluconate 1 gram IV",
+                        "Magnesium sulfate 2 grams IV",
+                        "All replacements simultaneously"
+                    ],
+                    correct: 2,
+                    rationale: "While all electrolytes need replacement, magnesium should be corrected FIRST. Hypomagnesemia impairs parathyroid hormone secretion and action, preventing calcium homeostasis. It also prevents cellular potassium retention. Replacing calcium or potassium without first correcting magnesium is ineffective."
+                },
+                {
+                    id: 74,
+                    question: "A patient with metastatic breast cancer presents with confusion, polyuria, and constipation. Serum calcium is 13.5 mg/dL. After IV hydration is started, which medication should the nurse prepare to administer?",
+                    options: [
+                        "Calcitonin 4 units/kg IM",
+                        "Calcium gluconate 1 gram IV",
+                        "Vitamin D 50,000 units PO",
+                        "Hydrochlorothiazide 25 mg PO"
+                    ],
+                    correct: 0,
+                    rationale: "With symptomatic hypercalcemia (confusion, polyuria, constipation) from malignancy, calcitonin provides rapid calcium reduction within hours by inhibiting bone resorption and increasing urinary excretion. It works faster than bisphosphonates, making it ideal for symptomatic patients."
+                },
+                {
+                    id: 75,
+                    question: "A patient with hypocalcemia is prescribed oral calcium carbonate 1000 mg TID with meals. The patient asks why it must be taken with food. What is the nurse's BEST response?",
+                    options: [
+                        "Food prevents stomach upset from the medication",
+                        "Stomach acid with meals improves calcium absorption",
+                        "Taking it with food prevents constipation",
+                        "Food slows absorption to prevent hypercalcemia"
+                    ],
+                    correct: 1,
+                    rationale: "Calcium carbonate requires acid for dissolution and absorption, making it best absorbed with meals when stomach acid production is highest. This is especially important in elderly patients or those on acid-suppressing medications."
+                },
+                {
+                    id: 76,
+                    question: "A patient has a positive Trousseau sign. Which additional assessment would support a diagnosis of hypocalcemia?",
+                    options: [
+                        "Muscle weakness",
+                        "Bradycardia",
+                        "Prolonged QT interval on ECG",
+                        "Decreased bowel sounds"
+                    ],
+                    correct: 2,
+                    rationale: "Hypocalcemia prolongs the QT interval, risking torsades de pointes. Hypocalcemia causes muscle cramps/tetany (not weakness), tachycardia (not bradycardia), and increased GI motility (not decreased bowel sounds) from neuromuscular excitability."
+                },
+                {
+                    id: 77,
+                    question: "A patient on chronic prednisone therapy develops the following: Ca++ 11.8 mg/dL, back pain, and a compression fracture on x-ray. What is the mechanism of this hypercalcemia?",
+                    options: [
+                        "Increased intestinal absorption",
+                        "Increased bone resorption",
+                        "Decreased renal excretion",
+                        "Increased parathyroid hormone"
+                    ],
+                    correct: 1,
+                    rationale: "Chronic corticosteroid use causes increased bone resorption by stimulating osteoclast activity and inhibiting osteoblast function. This releases calcium from bones (causing osteoporosis and fractures) into blood, causing hypercalcemia."
+                },
+                {
+                    id: 78,
+                    question: "A patient develops hypocalcemia (Ca++ 7.5 mg/dL) and hypomagnesemia (Mg++ 1.2 mEq/L) after chronic diarrhea. Despite receiving IV calcium gluconate, symptoms persist. What additional laboratory value would help explain this finding?",
+                    options: [
+                        "Serum phosphorus",
+                        "Serum potassium",
+                        "Parathyroid hormone",
+                        "Vitamin D level"
+                    ],
+                    correct: 2,
+                    rationale: "Parathyroid hormone (PTH) measurement would reveal if hypomagnesemia is impairing PTH secretion or action. Magnesium is required for both PTH release and target organ responsiveness. With hypomagnesemia, PTH levels may be inappropriately low or high but ineffective."
+                },
+                {
+                    id: 79,
+                    question: "A patient with severe hypercalcemia (Ca++ 14.2 mg/dL) is receiving IV hydration and furosemide. Four hours later, the patient develops muscle weakness and ECG changes. What complication should the nurse suspect?",
+                    options: [
+                        "Hypocalcemia from overtreatment",
+                        "Hypokalemia from furosemide",
+                        "Dehydration from diuresis",
+                        "Cardiac effects of persistent hypercalcemia"
+                    ],
+                    correct: 1,
+                    rationale: "Furosemide causes significant potassium loss along with calcium excretion. The new muscle weakness and ECG changes after furosemide administration suggest hypokalemia, a common complication of loop diuretic therapy for hypercalcemia."
+                },
+                {
+                    id: 80,
+                    question: "Which patient is at risk for developing hypocalcemia?",
+                    options: [
+                        "Patient with hyperthyroidism",
+                        "Patient receiving multiple blood transfusions",
+                        "Patient taking calcium supplements",
+                        "Patient with chronic constipation"
+                    ],
+                    correct: 1,
+                    rationale: "Citrate in blood products binds calcium, causing hypocalcemia with massive transfusion. Hyperthyroidism doesn't directly affect calcium. Calcium supplements would cause hypercalcemia. Constipation is a symptom of hypercalcemia, not a cause of hypocalcemia."
+                },
+                // Magnesium Imbalances Questions (81-90)
+                {
+                    id: 81,
+                    question: "A chronic alcoholic patient presents with tremors, hyperactive reflexes, and positive Chvostek and Trousseau signs. Labs show: Mg++ 0.8 mEq/L, Ca++ 8.2 mg/dL, K+ 3.3 mEq/L. What is the PRIORITY intervention?",
+                    options: [
+                        "Administer magnesium sulfate 2 grams IV",
+                        "Give calcium gluconate 1 gram IV",
+                        "Replace potassium chloride 40 mEq IV",
+                        "Administer thiamine 100 mg IV"
+                    ],
+                    correct: 0,
+                    rationale: "The patient has severe hypomagnesemia (0.8 mEq/L; normal 1.5-2.5) causing neuromuscular irritability. Magnesium replacement is the priority because hypomagnesemia causes secondary hypocalcemia (impaired PTH) and hypokalemia (renal K+ wasting)."
+                },
+                {
+                    id: 82,
+                    question: "A patient with preeclampsia is receiving magnesium sulfate 2 grams/hour IV. Which assessment finding would require the nurse to STOP the infusion immediately?",
+                    options: [
+                        "Deep tendon reflexes 2+",
+                        "Respiratory rate 10/minute",
+                        "Urine output 40 mL/hour",
+                        "Blood pressure 140/90 mmHg"
+                    ],
+                    correct: 1,
+                    rationale: "Respiratory rate <12/minute indicates magnesium toxicity with respiratory depression. This requires immediate discontinuation to prevent respiratory arrest. Magnesium sulfate must be carefully monitored with assessments of respirations, reflexes, and urine output."
+                },
+                {
+                    id: 83,
+                    question: "A patient in the ICU has been receiving total parenteral nutrition for 2 weeks. The patient develops tremors, personality changes, and seizures. Which electrolyte imbalance is MOST likely?",
+                    options: [
+                        "Hypocalcemia",
+                        "Hyponatremia",
+                        "Hypomagnesemia",
+                        "Hypophosphatemia"
+                    ],
+                    correct: 2,
+                    rationale: "Hypomagnesemia is common with TPN if magnesium isn't adequately supplemented. The classic triad of tremors, personality changes, and seizures strongly suggests magnesium deficiency."
+                },
+                {
+                    id: 84,
+                    question: "A patient with chronic kidney disease has a magnesium level of 3.8 mEq/L. The patient is alert but has absent deep tendon reflexes. Which treatment is MOST appropriate?",
+                    options: [
+                        "Calcium gluconate 10% 10 mL IV",
+                        "Hemodialysis",
+                        "Furosemide 40 mg IV",
+                        "Normal saline 1000 mL bolus"
+                    ],
+                    correct: 0,
+                    rationale: "With symptomatic hypermagnesemia (absent reflexes) in kidney disease, calcium gluconate is the immediate antidote. Calcium physiologically antagonizes magnesium at neuromuscular junctions, reversing dangerous effects within minutes."
+                },
+                {
+                    id: 85,
+                    question: "A patient receiving cisplatin chemotherapy develops hypomagnesemia despite oral supplementation. What is the BEST explanation for persistent deficiency?",
+                    options: [
+                        "Inadequate dietary intake",
+                        "Renal tubular damage",
+                        "Increased cellular uptake",
+                        "Gastrointestinal malabsorption"
+                    ],
+                    correct: 1,
+                    rationale: "Cisplatin causes direct renal tubular damage, specifically affecting magnesium reabsorption sites. This creates persistent urinary magnesium wasting that oral supplements cannot overcome."
+                },
+                {
+                    id: 86,
+                    question: "A patient with severe hypomagnesemia (Mg++ 0.9 mEq/L) is receiving IV magnesium sulfate. During infusion, the patient complains of feeling hot and flushed. Vital signs are stable. What should the nurse do?",
+                    options: [
+                        "Stop the infusion immediately",
+                        "Slow the infusion rate",
+                        "Administer calcium gluconate",
+                        "Continue at the current rate"
+                    ],
+                    correct: 1,
+                    rationale: "Warmth and flushing during magnesium infusion are common side effects from peripheral vasodilation, not signs of toxicity. With stable vital signs and severe deficiency requiring treatment, slowing the rate usually resolves discomfort while continuing replacement."
+                },
+                {
+                    id: 87,
+                    question: "A patient has the following labs: Mg++ 1.2 mEq/L, Ca++ 7.9 mg/dL, K+ 3.1 mEq/L, with ECG showing prolonged QT interval. Which replacement order would the nurse question?",
+                    options: [
+                        "Magnesium sulfate 2 grams IV over 1 hour",
+                        "Calcium gluconate 1 gram IV over 10 minutes",
+                        "Potassium chloride 40 mEq IVPB over 4 hours",
+                        "All three replacements ordered simultaneously"
+                    ],
+                    correct: 1,
+                    rationale: "Calcium replacement should be delayed until after magnesium is corrected. Hypomagnesemia causes functional hypoparathyroidism, making calcium replacement ineffective and potentially harmful. The calcium will be rapidly excreted without adequate magnesium for PTH function."
+                },
+                {
+                    id: 88,
+                    question: "A patient post-parathyroidectomy develops carpopedal spasms. Labs show: Ca++ 7.2 mg/dL, Mg++ 1.9 mEq/L, phosphorus 5.2 mg/dL. After calcium gluconate administration, spasms persist. What should the nurse assess NEXT?",
+                    options: [
+                        "Serum potassium level",
+                        "Arterial pH",
+                        "Serum albumin level",
+                        "Ionized calcium level"
+                    ],
+                    correct: 1,
+                    rationale: "Persistent tetany despite calcium replacement suggests alkalosis, which decreases ionized calcium availability. Even with low total calcium, alkalosis increases calcium binding to albumin, reducing the physiologically active ionized portion."
+                },
+                {
+                    id: 89,
+                    question: "Which clinical manifestation would the nurse expect in a patient with hypermagnesemia?",
+                    options: [
+                        "Hyperactive deep tendon reflexes",
+                        "Respiratory depression",
+                        "Hypertension",
+                        "Seizures"
+                    ],
+                    correct: 1,
+                    rationale: "High magnesium depresses respiratory muscles; respiratory arrest can occur with levels >10 mEq/L. Hypermagnesemia causes hypoactive (not hyperactive) reflexes, hypotension (not hypertension) through vasodilation, and CNS depression (not seizures)."
+                },
+                {
+                    id: 90,
+                    question: "Which factor contributes to hypomagnesemia?",
+                    options: [
+                        "Hypothyroidism",
+                        "Chronic diarrhea",
+                        "Excessive antacid use",
+                        "Dehydration"
+                    ],
+                    correct: 1,
+                    rationale: "Lower GI fluids are rich in magnesium; chronic diarrhea causes significant magnesium losses leading to deficiency. Hypothyroidism doesn't significantly affect magnesium balance. Some antacids contain magnesium and would cause hypermagnesemia. Dehydration alone doesn't cause magnesium loss."
+                },
+                // Phosphorus Imbalances Questions (91-100)
+                {
+                    id: 91,
+                    question: "A patient with chronic alcoholism is admitted with confusion and weakness. Upon attempting to eat, the patient develops respiratory distress. Labs show: phosphorus 1.5 mg/dL, glucose 250 mg/dL after eating. What syndrome is occurring?",
+                    options: [
+                        "Wernicke's encephalopathy",
+                        "Refeeding syndrome",
+                        "Alcoholic ketoacidosis",
+                        "Delirium tremens"
+                    ],
+                    correct: 1,
+                    rationale: "Refeeding syndrome occurs when nutrition is reintroduced after prolonged malnutrition. Insulin release drives phosphorus intracellularly for ATP production, causing severe hypophosphatemia (<1.5 mg/dL is critical). The respiratory distress results from diaphragm weakness and impaired oxygen delivery."
+                },
+                {
+                    id: 92,
+                    question: "A patient with severe hypophosphatemia (0.8 mg/dL) develops hemolytic anemia. What is the pathophysiologic connection?",
+                    options: [
+                        "Phosphorus deficiency impairs iron absorption",
+                        "Low phosphorus causes direct RBC membrane damage",
+                        "Decreased ATP production leads to RBC rigidity",
+                        "Hypophosphatemia triggers autoimmune hemolysis"
+                    ],
+                    correct: 2,
+                    rationale: "Severe hypophosphatemia impairs ATP production in RBCs. Without adequate ATP, RBCs cannot maintain membrane flexibility and normal shape. They become rigid spherocytes that are trapped and destroyed in the spleen, causing hemolytic anemia."
+                },
+                {
+                    id: 93,
+                    question: "A patient with tumor lysis syndrome has the following labs: phosphorus 8.5 mg/dL, calcium 7.0 mg/dL, K+ 6.2 mEq/L, uric acid 12 mg/dL. Which medication should be administered FIRST?",
+                    options: [
+                        "Aluminum hydroxide",
+                        "Calcium gluconate",
+                        "Sodium polystyrene sulfonate",
+                        "Allopurinol"
+                    ],
+                    correct: 1,
+                    rationale: "Despite the hyperphosphatemia, calcium gluconate is the first priority due to severe hypocalcemia (7.0 mg/dL) combined with hyperkalemia. Both conditions threaten cardiac stability. Calcium stabilizes cardiac membranes against both low calcium and high potassium effects."
+                },
+                {
+                    id: 94,
+                    question: "A patient receiving continuous renal replacement therapy (CRRT) develops weakness and confusion. Labs show phosphorus 1.8 mg/dL. What is the MOST likely cause?",
+                    options: [
+                        "Inadequate phosphorus in replacement fluid",
+                        "Excessive ultrafiltration rate",
+                        "Metabolic alkalosis from citrate",
+                        "Uremic encephalopathy"
+                    ],
+                    correct: 0,
+                    rationale: "CRRT effectively removes phosphorus, and standard replacement fluids often lack adequate phosphorus supplementation. This creates ongoing losses without replacement, causing hypophosphatemia."
+                },
+                {
+                    id: 95,
+                    question: "A burn patient develops hypophosphatemia during the healing phase. The nurse notes new areas of poor wound healing. What is the connection?",
+                    options: [
+                        "Phosphorus deficiency impairs protein synthesis",
+                        "Low phosphorus decreases growth factor production",
+                        "Hypophosphatemia reduces collagen formation",
+                        "All cellular processes require ATP from phosphorus"
+                    ],
+                    correct: 3,
+                    rationale: "Phosphorus is essential for ATP production, and wound healing is an extremely energy-intensive process. Every aspect of healing - protein synthesis, cell division, collagen formation, angiogenesis - requires ATP. Without adequate phosphorus, cells cannot generate sufficient energy for these processes."
+                },
+                {
+                    id: 96,
+                    question: "A patient with chronic kidney disease has a calcium-phosphorus product of 72 mg²/dL². What is the PRIMARY concern?",
+                    options: [
+                        "Increased risk of kidney stones",
+                        "Soft tissue calcification",
+                        "Bone demineralization",
+                        "Cardiac conduction delays"
+                    ],
+                    correct: 1,
+                    rationale: "A calcium-phosphorus product >55-60 mg²/dL² indicates high risk for metastatic calcification in soft tissues. This occurs when the product exceeds solubility, causing calcium-phosphate crystals to precipitate in blood vessels, heart, lungs, and other organs."
+                },
+                {
+                    id: 97,
+                    question: "A patient receiving treatment for DKA has the following phosphorus levels: admission 4.5 mg/dL, 4 hours later 2.2 mg/dL, 8 hours later 1.5 mg/dL. What should the nurse anticipate?",
+                    options: [
+                        "Continue current treatment without changes",
+                        "Increase insulin infusion rate",
+                        "Begin IV phosphorus replacement",
+                        "Switch to subcutaneous insulin"
+                    ],
+                    correct: 2,
+                    rationale: "The rapidly falling phosphorus (4.5 → 1.5 mg/dL in 8 hours) during DKA treatment requires IV phosphorus replacement to prevent severe complications. As insulin drives glucose and phosphorus intracellularly and acidosis corrects, total body phosphorus depletion becomes apparent."
+                },
+                {
+                    id: 98,
+                    question: "A patient asks why calcium and phosphorus levels are always checked together. What is the nurse's BEST explanation?",
+                    options: [
+                        "They compete for the same binding sites in your blood",
+                        "When one goes up, the other usually goes down to maintain balance",
+                        "They're both controlled by the same hormone system",
+                        "The laboratory equipment measures them together"
+                    ],
+                    correct: 1,
+                    rationale: "Calcium and phosphorus have an inverse relationship maintained by complex homeostatic mechanisms. When phosphorus rises, it binds calcium, lowering free calcium levels. This triggers PTH release, which lowers phosphorus and raises calcium."
+                },
+                {
+                    id: 99,
+                    question: "A patient with hyperphosphatemia is prescribed sevelamer (Renagel). Which instruction should the nurse provide?",
+                    options: [
+                        "Take on empty stomach for best absorption",
+                        "Take with meals",
+                        "Avoid taking with other medications",
+                        "Expect dark stools"
+                    ],
+                    correct: 1,
+                    rationale: "Phosphate binders must be taken with meals to bind dietary phosphorus in the GI tract. Taking on empty stomach defeats the purpose as there's no phosphorus to bind. Sevelamer can bind other medications, so timing is important. Dark stools occur with iron supplements, not sevelamer."
+                },
+                {
+                    id: 100,
+                    question: "Which patient requires phosphorus monitoring?",
+                    options: [
+                        "Patient with hyperthyroidism",
+                        "Patient receiving aluminum-based antacids",
+                        "Patient with hypertension",
+                        "Patient taking calcium supplements"
+                    ],
+                    correct: 1,
+                    rationale: "Aluminum binds phosphorus in the gut, preventing absorption and causing deficiency with chronic use. This requires monitoring to prevent severe hypophosphatemia. Hyperthyroidism primarily affects calcium metabolism. Hypertension doesn't directly affect phosphorus. Calcium supplements affect calcium-phosphorus balance but don't specifically require phosphorus monitoring."
+                }
+            ]
+        };
+
+        // Quiz State Variables
+        let currentPart = 1;
+        let currentQuestionIndex = 0;
+        let selectedAnswer = null;
+        let userAnswers = [];
+        let showingRationale = false;
+        let timerInterval = null;
+        let secondsElapsed = 0;
+        let isReviewMode = false;
+
+        // Initialize Quiz
+        function startQuiz(part) {
+            currentPart = part;
+            currentQuestionIndex = 0;
+            userAnswers = [];
+            secondsElapsed = 0;
+            showingRationale = false;
+            isReviewMode = false;
+            
+            document.getElementById('landingPage').style.display = 'none';
+            document.getElementById('quizPage').style.display = 'block';
+            document.getElementById('partTitle').textContent = `Part ${part}`;
+            document.getElementById('totalQuestions').textContent = '50';
+            
+            startTimer();
+            renderQuestionNavigator();
+            showQuestion();
+        }
+
+        // Timer Functions
+        function startTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                secondsElapsed++;
+                updateTimerDisplay();
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const hours = Math.floor(secondsElapsed / 3600);
+            const minutes = Math.floor((secondsElapsed % 3600) / 60);
+            const seconds = secondsElapsed % 60;
+            
+            const display = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            document.getElementById('timer').textContent = display;
+        }
+
+        // Question Display Functions
+        function showQuestion() {
+            const questions = currentPart === 1 ? quizData.part1 : quizData.part2;
+            const question = questions[currentQuestionIndex];
+            
+            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+            document.getElementById('percentComplete').textContent = Math.round(((currentQuestionIndex + 1) / 50) * 100);
+            document.getElementById('questionText').textContent = question.question;
+            
+            renderOptions(question);
+            updateNavigationButtons();
+            updateQuestionNavigator();
+            
+            // Reset rationale and check button
+            document.getElementById('rationaleBox').style.display = 'none';
+            document.getElementById('checkButton').style.display = 'none';
+            showingRationale = false;
+            selectedAnswer = userAnswers[currentQuestionIndex] || null;
+            
+            // If user already answered this question, show the check button
+            if (userAnswers[currentQuestionIndex] !== undefined && !isReviewMode) {
+                document.getElementById('checkButton').style.display = 'inline-block';
+            }
+        }
+
+        function renderOptions(question) {
+            const container = document.getElementById('optionsContainer');
+            container.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = 'option';
+                
+                if (userAnswers[currentQuestionIndex] === index) {
+                    optionDiv.classList.add('selected');
+                }
+                
+                if (showingRationale) {
+                    if (index === question.correct) {
+                        optionDiv.classList.add('correct');
+                    } else if (userAnswers[currentQuestionIndex] === index) {
+                        optionDiv.classList.add('incorrect');
+                    }
+                }
+                
+                optionDiv.onclick = () => selectAnswer(index);
+                
+                optionDiv.innerHTML = `
+                    <span class="option-label">${String.fromCharCode(65 + index)}</span>
+                    <span class="option-text">${option}</span>
+                `;
+                
+                container.appendChild(optionDiv);
+            });
+        }
+
+        function selectAnswer(index) {
             if (showingRationale) return;
             
             selectedAnswer = index;
@@ -21,3 +1854,173 @@ function selectAnswer(index) {
             showRationale();
             document.getElementById('checkButton').style.display = 'none';
         }
+
+        function showRationale() {
+            const questions = currentPart === 1 ? quizData.part1 : quizData.part2;
+            const question = questions[currentQuestionIndex];
+            
+            showingRationale = true;
+            
+            // Update options to show correct/incorrect
+            document.querySelectorAll('.option').forEach((opt, i) => {
+                if (i === question.correct) {
+                    opt.classList.add('correct');
+                } else if (i === selectedAnswer && i !== question.correct) {
+                    opt.classList.add('incorrect');
+                }
+            });
+            
+            // Show rationale box
+            document.getElementById('rationaleText').textContent = question.rationale;
+            document.getElementById('rationaleBox').style.display = 'block';
+            
+            updateQuestionNavigator();
+        }
+
+        // Navigation Functions
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                showQuestion();
+                
+                // In review mode, automatically show the rationale
+                if (isReviewMode && userAnswers[currentQuestionIndex] !== undefined) {
+                    showRationale();
+                }
+            }
+        }
+
+        function nextQuestion() {
+            const questions = currentPart === 1 ? quizData.part1 : quizData.part2;
+            
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                showQuestion();
+                
+                // In review mode, automatically show the rationale
+                if (isReviewMode && userAnswers[currentQuestionIndex] !== undefined) {
+                    showRationale();
+                }
+            } else {
+                // Quiz complete
+                showResults();
+            }
+        }
+
+        function goToQuestion(index) {
+            currentQuestionIndex = index;
+            showQuestion();
+            
+            // In review mode, automatically show the rationale
+            if (isReviewMode && userAnswers[currentQuestionIndex] !== undefined) {
+                showRationale();
+            }
+        }
+
+        function updateNavigationButtons() {
+            const prevButton = document.getElementById('prevButton');
+            const nextButton = document.getElementById('nextButton');
+            const questions = currentPart === 1 ? quizData.part1 : quizData.part2;
+            
+            prevButton.disabled = currentQuestionIndex === 0;
+            
+            if (currentQuestionIndex === questions.length - 1) {
+                nextButton.textContent = 'Finish →';
+                nextButton.classList.add('submit-button');
+            } else {
+                nextButton.textContent = 'Next →';
+                nextButton.classList.remove('submit-button');
+            }
+        }
+
+        // Question Navigator
+        function renderQuestionNavigator() {
+            const grid = document.getElementById('questionGrid');
+            grid.innerHTML = '';
+            
+            for (let i = 0; i < 50; i++) {
+                const numberDiv = document.createElement('div');
+                numberDiv.className = 'question-number';
+                numberDiv.textContent = i + 1;
+                numberDiv.onclick = () => goToQuestion(i);
+                grid.appendChild(numberDiv);
+            }
+        }
+
+        function updateQuestionNavigator() {
+            const numbers = document.querySelectorAll('.question-number');
+            
+            numbers.forEach((num, index) => {
+                num.classList.remove('current', 'answered');
+                
+                if (index === currentQuestionIndex) {
+                    num.classList.add('current');
+                }
+                
+                if (userAnswers[index] !== undefined) {
+                    num.classList.add('answered');
+                }
+            });
+        }
+
+        // Results Functions
+        function showResults() {
+            if (timerInterval) clearInterval(timerInterval);
+            
+            const questions = currentPart === 1 ? quizData.part1 : quizData.part2;
+            let correctCount = 0;
+            
+            questions.forEach((question, index) => {
+                if (userAnswers[index] === question.correct) {
+                    correctCount++;
+                }
+            });
+            
+            const percentage = Math.round((correctCount / 50) * 100);
+            
+            document.getElementById('quizPage').style.display = 'none';
+            document.getElementById('resultsPage').style.display = 'block';
+            
+            document.getElementById('scoreDisplay').textContent = `${correctCount}/50`;
+            
+            let message = '';
+            if (percentage >= 90) {
+                message = 'Excellent work! You have mastered this material!';
+            } else if (percentage >= 80) {
+                message = 'Great job! You have a strong understanding of the concepts.';
+            } else if (percentage >= 70) {
+                message = 'Good effort! Review the topics you missed and try again.';
+            } else {
+                message = 'Keep studying! Focus on understanding the rationales for each question.';
+            }
+            
+            document.getElementById('scoreMessage').textContent = message;
+        }
+
+        function reviewQuiz() {
+            currentQuestionIndex = 0;
+            isReviewMode = true;
+            document.getElementById('resultsPage').style.display = 'none';
+            document.getElementById('quizPage').style.display = 'block';
+            showQuestion();
+            
+            // In review mode, automatically show the rationale
+            if (userAnswers[currentQuestionIndex] !== undefined) {
+                showRationale();
+            }
+        }
+
+        function restartQuiz() {
+            isReviewMode = false;
+            startQuiz(currentPart);
+        }
+
+        function backToHome() {
+            if (timerInterval) clearInterval(timerInterval);
+            document.getElementById('resultsPage').style.display = 'none';
+            document.getElementById('quizPage').style.display = 'none';
+            document.getElementById('landingPage').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
