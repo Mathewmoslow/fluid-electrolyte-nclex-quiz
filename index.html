@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -59,7 +60,7 @@
             border-radius: 20px;
             padding: 40px;
             width: 350px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease;
         }
 
@@ -115,7 +116,7 @@
 
         .start-button:hover {
             transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
         /* Quiz Page Styles */
@@ -123,7 +124,7 @@
             display: none;
             background: white;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             padding: 40px;
             max-width: 900px;
             margin: 0 auto;
@@ -267,7 +268,7 @@
 
         .nav-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
         .nav-button:disabled {
@@ -342,7 +343,7 @@
             padding: 60px 20px;
             background: white;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             max-width: 600px;
             margin: 0 auto;
         }
@@ -403,7 +404,7 @@
                 flex-direction: column;
                 align-items: center;
             }
-            
+
             .quiz-card {
                 width: 100%;
                 max-width: 350px;
@@ -425,14 +426,15 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <!-- Landing Page -->
         <div class="landing-page" id="landingPage">
             <div class="book-icon">📘</div>
             <h1>Fluid & Electrolyte NCLEX Quiz</h1>
-            <p>Comprehensive practice with 100 NCLEX-style questions</p>
-            
+            <p>Comprehensive practice with 150 NCLEX-style questions</p>
+
             <div class="quiz-cards">
                 <div class="quiz-card part1">
                     <div class="number">1</div>
@@ -440,14 +442,14 @@
                     <p>50 questions covering fundamental fluid and electrolyte concepts</p>
                     <button class="start-button" onclick="startQuiz(1)">Start Part 1</button>
                 </div>
-                
+
                 <div class="quiz-card part2">
                     <div class="number">2</div>
                     <h2>Part 2: Advanced Practice</h2>
                     <p>50 questions with complex clinical scenarios</p>
                     <button class="start-button" onclick="startQuiz(2)">Start Part 2</button>
                 </div>
-                
+
                 <div class="quiz-card part3">
                     <div class="number">3</div>
                     <h2>Part 3: Critical Thinking</h2>
@@ -455,64 +457,65 @@
                     <button class="start-button" onclick="startQuiz(3)">Start Part 3</button>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Quiz Page -->
+    <div class="quiz-page" id="quizPage">
+        <div class="quiz-header">
+            <div class="quiz-title">
+                📘 NCLEX Practice Quiz - <span id="partTitle">Part 1</span>
             </div>
+            <div class="timer">⏱️ <span id="timer">00:00:00</span></div>
         </div>
 
-        <!-- Quiz Page -->
-        <div class="quiz-page" id="quizPage">
-            <div class="quiz-header">
-                <div class="quiz-title">
-                    📘 NCLEX Practice Quiz - <span id="partTitle">Part 1</span>
-                </div>
-                <div class="timer">⏱️ <span id="timer">00:00:00</span></div>
-            </div>
-
-            <div class="progress-info">
-                <div class="question-counter">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">50</span></div>
-                <div class="percentage-complete"><span id="percentComplete">0</span>% Complete</div>
-            </div>
-
-            <div class="question-text" id="questionText">Loading question...</div>
-
-            <div class="options" id="optionsContainer">
-                <!-- Options will be dynamically inserted here -->
-            </div>
-
-            <div class="rationale-box" id="rationaleBox" style="display: none;">
-                <h4>Rationale:</h4>
-                <p id="rationaleText"></p>
-            </div>
-
-            <div class="navigation-buttons">
-                <button class="nav-button prev-button" id="prevButton" onclick="previousQuestion()">← Previous</button>
-                <button class="nav-button next-button" id="nextButton" onclick="nextQuestion()">Next →</button>
-            </div>
-
-            <div class="question-navigator">
-                <div class="navigator-title">Question Navigator</div>
-                <div class="question-grid" id="questionGrid">
-                    <!-- Question numbers will be dynamically inserted here -->
-                </div>
-            </div>
+        <div class="progress-info">
+            <div class="question-counter">Question <span id="currentQuestion">1</span> of <span
+                    id="totalQuestions">50</span></div>
+            <div class="percentage-complete"><span id="percentComplete">0</span>% Complete</div>
         </div>
 
-        <!-- Results Page -->
-        <div class="results-page" id="resultsPage">
-            <div class="results-icon">🎉</div>
-            <h2>Quiz Complete!</h2>
-            <div class="score-display" id="scoreDisplay">0/0</div>
-            <div class="score-message" id="scoreMessage">Calculating your results...</div>
-            
-            <div class="results-buttons">
-                <button class="nav-button" onclick="reviewQuiz()">Review Answers</button>
-                <button class="nav-button submit-button" onclick="restartQuiz()">Try Again</button>
-                <button class="nav-button" onclick="backToHome()">Back to Home</button>
+        <div class="question-text" id="questionText">Loading question...</div>
+
+        <div class="options" id="optionsContainer">
+            <!-- Options will be dynamically inserted here -->
+        </div>
+
+        <div class="rationale-box" id="rationaleBox" style="display: none;">
+            <h4>Rationale:</h4>
+            <p id="rationaleText"></p>
+        </div>
+
+        <div class="navigation-buttons">
+            <button class="nav-button prev-button" id="prevButton" onclick="previousQuestion()">← Previous</button>
+            <button class="nav-button next-button" id="nextButton" onclick="nextQuestion()">Next →</button>
+        </div>
+
+        <div class="question-navigator">
+            <div class="navigator-title">Question Navigator</div>
+            <div class="question-grid" id="questionGrid">
+                <!-- Question numbers will be dynamically inserted here -->
             </div>
         </div>
     </div>
 
+    <!-- Results Page -->
+    <div class="results-page" id="resultsPage">
+        <div class="results-icon">🎉</div>
+        <h2>Quiz Complete!</h2>
+        <div class="score-display" id="scoreDisplay">0/0</div>
+        <div class="score-message" id="scoreMessage">Calculating your results...</div>
+
+        <div class="results-buttons">
+            <button class="nav-button" onclick="reviewQuiz()">Review Answers</button>
+            <button class="nav-button submit-button" onclick="restartQuiz()">Try Again</button>
+            <button class="nav-button" onclick="backToHome()">Back to Home</button>
+        </div>
+    </div>
+    </div>
+
     <script>
-        
+
         // Quiz Data
         const quizData = {
             part1: [
@@ -1732,1219 +1735,1206 @@
             part3: [
                 {
                     id: 101,
-                    question: "A client admitted for pancreatitis is receiving lactated Ringer's at 150 mL/hr. Six hours later the nurse notes coarse crackles half-way up both lung fields and jugular venous distention. What is the nurse's priority action?",
+                    question: "A patient's serum sodium level is 150 mEq/L. The nurse recognizes this as:",
                     options: [
-                        "Decrease the rate to 50 mL/hr",
-                        "Stop the infusion and notify the provider",
-                        "Elevate the head of bed to 90 degrees",
-                        "Administer IV furosemide 20 mg"
+                        "Normal sodium level",
+                        "Hyponatremia",
+                        "Hypernatremia",
+                        "Critical low sodium"
                     ],
-                    correct: 1,
-                    rationale: "Stopping the source of the overload prevents further compromise; the provider can then prescribe diuresis or an alternative fluid. Comfort measures (C) and diuretics (D) matter, yet eliminating the precipitating factor comes first."
+                    correct: 2,
+                    rationale: "Normal sodium is 135-145 mEq/L. A level of 150 mEq/L is above normal, indicating hypernatremia."
                 },
                 {
                     id: 102,
-                    question: "The nurse reviews morning labs: Na 128 mEq/L (135-145), K 3.6 mEq/L, serum osmolality 268 mOsm/kg. The client is on D5 ½ NS at 125 mL/hr and NPO for surgery this afternoon. Which order should the nurse question?",
+                    question: "Which symptom would the nurse expect in a patient with a potassium level of 2.8 mEq/L?",
                     options: [
-                        "Continue D5 ½ NS at present rate",
-                        "Start 0.9% NS at 100 mL/hr",
-                        "Restrict free water to 800 mL/24 hr",
-                        "Insert saline lock and keep IV open"
+                        "Muscle weakness",
+                        "Tall peaked T waves",
+                        "Hyperactive reflexes",
+                        "Bradycardia"
                     ],
                     correct: 0,
-                    rationale: "A hypotonic solution (D5 ½ NS) will worsen hyponatremia. Isotonic saline or a saline lock are safer until sodium rises."
+                    rationale: "Hypokalemia (K+ below 3.5 mEq/L) causes muscle weakness and fatigue. Peaked T waves occur with hyperkalemia."
                 },
                 {
                     id: 103,
-                    question: "A client with new heart failure is prescribed spironolactone 25 mg PO daily. Which menu selection indicates the need for further teaching?",
+                    question: "A patient is receiving IV potassium chloride. What is the maximum safe infusion rate through a peripheral IV?",
                     options: [
-                        "Baked cod, brown rice, steamed carrots",
-                        "Baked potato with yogurt topping",
-                        "Grilled chicken salad on romaine",
-                        "Pasta with olive oil and green beans"
+                        "5 mEq/hour",
+                        "10 mEq/hour",
+                        "20 mEq/hour",
+                        "40 mEq/hour"
                     ],
                     correct: 1,
-                    rationale: "Potassium-sparing diuretics raise serum K+. A baked potato plus yogurt provides high potassium, increasing risk of hyperkalemia."
+                    rationale: "IV potassium must never exceed 10 mEq/hour through a peripheral line to prevent cardiac arrest."
                 },
                 {
                     id: 104,
-                    question: "During the 0700 assessment a nurse finds: BP 82/48 mm Hg, HR 122 bpm, urine output 22 mL/hr, skin cool and mottled. What two nursing diagnoses take priority? (Select 2)",
+                    question: "The normal range for serum calcium is:",
                     options: [
-                        "Ineffective Thermoregulation",
-                        "Deficient Fluid Volume",
-                        "Decreased Cardiac Output",
-                        "Anxiety",
-                        "Impaired Physical Mobility"
+                        "3.5-5.0 mg/dL",
+                        "8.5-10.5 mg/dL",
+                        "98-106 mg/dL",
+                        "135-145 mg/dL"
                     ],
-                    correct: 1, // Note: This is a SATA question - you may need special handling
-                    rationale: "Hypotension, tachycardia, and oliguria point to volume loss and compromised perfusion; restoring circulating volume is essential."
+                    correct: 1,
+                    rationale: "Normal serum calcium is 8.5-10.5 mg/dL. This is important to memorize for safe patient care."
                 },
                 {
                     id: 105,
-                    question: "The provider orders 3% sodium chloride 250 mL over 2 h for symptomatic hyponatremia (Na 121 mEq/L). Which assessment requires immediate action during the infusion?",
+                    question: "A patient with hypocalcemia would likely exhibit which sign?",
                     options: [
-                        "Blood pressure rise from 110/70 to 118/76",
-                        "New complaint of pounding headache",
-                        "Urine output increasing to 55 mL/hr",
-                        "Mild facial flushing"
+                        "Constipation",
+                        "Muscle weakness",
+                        "Positive Chvostek's sign",
+                        "Bradycardia"
                     ],
-                    correct: 1,
-                    rationale: "A sudden headache signals possible osmotic demyelination or cerebral edema from too-rapid sodium shifts; stop the infusion and notify the provider."
+                    correct: 2,
+                    rationale: "Positive Chvostek's sign (facial twitching when tapping the facial nerve) indicates hypocalcemia due to increased neuromuscular irritability."
                 },
                 {
                     id: 106,
-                    question: "A client receiving cisplatin has K 3.2 mEq/L, Mg 1.4 mg/dL (1.7–2.2). Which replacement strategy should the nurse anticipate first?",
+                    question: "Which IV solution is considered isotonic?",
                     options: [
-                        "Oral potassium chloride",
-                        "IV potassium chloride 20 mEq in 100 mL over 1 h",
-                        "IV magnesium sulfate 2 g in 50 mL over 1 h",
-                        "No replacement—monitor labs tomorrow"
+                        "0.45% sodium chloride",
+                        "0.9% sodium chloride",
+                        "3% sodium chloride",
+                        "D5W after infusion"
                     ],
-                    correct: 2,
-                    rationale: "Hypomagnesemia can prevent potassium from entering cells, making K+ repletion ineffective until magnesium is corrected."
+                    correct: 1,
+                    rationale: "0.9% sodium chloride (normal saline) is isotonic, having the same osmolality as blood plasma."
                 },
                 {
                     id: 107,
-                    question: "A postoperative client has CT output 90 mL in the last 8 h, BUN 32 mg/dL, creatinine 1.9 mg/dL (baseline 0.9). Which fluid order is most appropriate?",
+                    question: "A patient receiving furosemide (Lasix) should be monitored for which electrolyte imbalance?",
                     options: [
-                        "0.45% NS at 75 mL/hr",
-                        "0.9% NS bolus 500 mL over 30 min",
-                        "D5W at 125 mL/hr",
-                        "Albumin 5% 250 mL over 1 h"
+                        "Hyperkalemia",
+                        "Hypokalemia",
+                        "Hypernatremia",
+                        "Hypercalcemia"
                     ],
                     correct: 1,
-                    rationale: "Findings suggest pre-renal azotemia from hypoperfusion; an isotonic bolus restores renal blood flow rapidly."
+                    rationale: "Furosemide is a loop diuretic that causes potassium loss, leading to hypokalemia."
                 },
                 {
                     id: 108,
-                    question: "A newly admitted client reports taking large doses of calcium carbonate. Labs show Ca 11.3 mg/dL (8.6-10.2) and phosphorus 2.2 mg/dL (2.5-4.5). Which symptom would the nurse expect?",
+                    question: "The nurse assesses a patient with a magnesium level of 1.2 mEq/L. This indicates:",
                     options: [
-                        "Positive Chvostek sign",
-                        "Hyperactive bowel sounds",
-                        "Generalized muscle weakness",
-                        "Perioral tingling"
+                        "Normal magnesium",
+                        "Hypomagnesemia",
+                        "Hypermagnesemia",
+                        "Critical high magnesium"
                     ],
-                    correct: 2,
-                    rationale: "Hypercalcemia depresses neuromuscular activity, producing weakness and lethargy rather than tetany or neuromuscular irritability."
+                    correct: 1,
+                    rationale: "Normal magnesium is 1.5-2.5 mEq/L. A level of 1.2 is below normal, indicating hypomagnesemia."
                 },
                 {
                     id: 109,
-                    question: "A client with mild hypervolemia is to receive furosemide 20 mg IV now. Baseline K is 3.4 mEq/L. What is the safest nursing action?",
+                    question: "Which food is highest in potassium?",
                     options: [
-                        "Administer the dose as prescribed",
-                        "Hold furosemide and notify provider",
-                        "Give furosemide with 40 mEq oral KCl",
-                        "Switch to hydrochlorothiazide 25 mg PO"
+                        "Apple",
+                        "White bread",
+                        "Banana",
+                        "White rice"
                     ],
-                    correct: 1,
-                    rationale: "Starting a loop diuretic when K+ is already slightly low invites arrhythmias; clarify orders first."
+                    correct: 2,
+                    rationale: "Bananas are high in potassium. This is important for patient teaching about dietary potassium intake."
                 },
                 {
                     id: 110,
-                    question: "Which findings best demonstrate that treatment for fluid volume excess is effective? (Select 2)",
+                    question: "A patient has gained 2 kg in 24 hours. This weight gain represents approximately how much fluid retention?",
                     options: [
-                        "Weight decrease of 2 kg in 24 h",
-                        "BNP climbing from 220 pg/mL to 270 pg/mL",
-                        "Crackles shift from mid-lung to bases",
-                        "Urine specific gravity rising from 1.010 to 1.030",
-                        "CVP increasing from 10 to 14 cm H₂O"
+                        "500 mL",
+                        "1000 mL",
+                        "2000 mL",
+                        "3000 mL"
                     ],
-                    correct: 0, // Note: SATA question
-                    rationale: "Weight loss and reduction of pulmonary congestion verify successful fluid removal. Rising BNP, concentrated urine, and higher CVP signal persistent overload."
+                    correct: 2,
+                    rationale: "1 kg of weight gain equals approximately 1 liter (1000 mL) of fluid. Therefore, 2 kg = 2000 mL."
                 },
                 {
                     id: 111,
-                    question: "A hemodialysis client's morning potassium is 5.8 mEq/L. Which ECG change does the nurse anticipate?",
+                    question: "Which assessment finding indicates fluid volume excess?",
                     options: [
-                        "U-waves",
-                        "Prolonged QT interval",
-                        "Peaked T-waves",
-                        "ST depression"
+                        "Decreased skin turgor",
+                        "Dry mucous membranes",
+                        "Crackles in lungs",
+                        "Concentrated urine"
                     ],
                     correct: 2,
-                    rationale: "Hyperkalemia narrows and peaks T-waves; U-waves appear in hypokalemia, and a prolonged QT suggests hypocalcemia."
+                    rationale: "Crackles in the lungs indicate fluid accumulation in the alveoli, a sign of fluid volume excess."
                 },
                 {
                     id: 112,
-                    question: "Order to \"encourage oral fluids\" appears for an alert geriatric client with Na 150 mEq/L. Which approaches are appropriate? (Select all that apply)",
+                    question: "The normal range for serum potassium is:",
                     options: [
-                        "Offer water every hour while awake",
-                        "Provide 500 mL sports drink at once",
-                        "Arrange for a bedside pitcher labeled \"daily goal\"",
-                        "Limit caffeine to one cup per shift",
-                        "Start hypotonic IV at 150 mL/hr"
+                        "1.5-2.5 mEq/L",
+                        "3.5-5.0 mEq/L",
+                        "8.5-10.5 mEq/L",
+                        "135-145 mEq/L"
                     ],
-                    correct: 0, // Note: SATA question
-                    rationale: "Regular, measured water intake and visual cues foster adherence; caffeine restriction reduces diuresis. A large bolus or hypotonic IV risks abrupt shifts."
+                    correct: 1,
+                    rationale: "Normal serum potassium is 3.5-5.0 mEq/L. This is critical to memorize as both high and low levels affect cardiac function."
                 },
                 {
                     id: 113,
-                    question: "A client on NG suction has serum Na 132 mEq/L and urine specific gravity 1.034. 0.9% NS is infusing at 75 mL/hr. Which additional order would the nurse expect?",
+                    question: "A patient with dehydration would most likely have which finding?",
                     options: [
-                        "Furosemide 20 mg IV",
-                        "D5 0.45% NS at 125 mL/hr",
-                        "3% NS 250 mL over 4 h",
-                        "Sodium bicarbonate 650 mg PO"
+                        "Increased urine output",
+                        "Decreased heart rate",
+                        "Poor skin turgor",
+                        "Peripheral edema"
                     ],
-                    correct: 3,
-                    rationale: "Prolonged gastric losses remove HCl, risking metabolic alkalosis, often treated with sodium bicarbonate. Hyperconcentrated urine shows volume deficit; hypertonic saline is unnecessary with only mild hyponatremia."
+                    correct: 2,
+                    rationale: "Poor skin turgor (skin stays tented when pinched) indicates dehydration and fluid volume deficit."
                 },
                 {
                     id: 114,
-                    question: "While giving 0.25% albumin to a burn patient, which parameter best evaluates therapeutic effect?",
+                    question: "Which ECG change is associated with hyperkalemia?",
                     options: [
-                        "Blood pressure increase from 92/54 to 106/66",
-                        "Weight gain of 1.5 kg",
-                        "Urine sodium > 40 mEq/L",
-                        "Crackles present at bases"
+                        "U waves",
+                        "Peaked T waves",
+                        "Flattened T waves",
+                        "Prolonged PR interval only"
                     ],
-                    correct: 0,
-                    rationale: "Albumin draws fluid into the vascular space, raising pressure; moderate weight gain may occur but BP confirms effective volume expansion."
+                    correct: 1,
+                    rationale: "Peaked T waves are the classic ECG sign of hyperkalemia. This is a critical finding requiring immediate intervention."
                 },
                 {
                     id: 115,
-                    question: "Which orders would the nurse question for a client with serum magnesium 0.9 mg/dL and torsades de pointes? (Select all that apply)",
+                    question: "A patient's IV infiltrates. The nurse would expect the site to be:",
                     options: [
-                        "Magnesium sulfate 2 g IV now",
-                        "Lidocaine drip at 2 mg/min",
-                        "Furosemide 40 mg IV",
-                        "Initiate digoxin 0.25 mg IV push",
-                        "Defibrillate at 200 J if hemodynamic collapse"
+                        "Warm and red",
+                        "Cool and swollen",
+                        "Hot with red streaking",
+                        "Unchanged in appearance"
                     ],
-                    correct: 2, // Note: SATA question
-                    rationale: "Loop diuretics and digoxin aggravate hypomagnesemia and arrhythmias; magnesium replacement and possible lidocaine or defibrillation are appropriate."
+                    correct: 1,
+                    rationale: "Infiltration occurs when IV fluid leaks into surrounding tissue, causing the site to be cool, pale, and swollen."
                 },
                 {
                     id: 116,
-                    question: "A client with cirrhosis develops hyponatremia. The provider prescribes tolvaptan. Which ongoing assessment is highest priority?",
+                    question: "Which patient is at highest risk for hypernatremia?",
                     options: [
-                        "Blood glucose",
-                        "Mental status",
-                        "Urine ketones",
-                        "Lipid panel"
+                        "A patient drinking 3 liters of water daily",
+                        "An elderly patient with decreased thirst sensation",
+                        "A patient on fluid restriction of 2000 mL/day",
+                        "A young adult athlete"
                     ],
                     correct: 1,
-                    rationale: "Rapid correction may trigger osmotic demyelination; frequent neurologic checks detect subtle changes early."
+                    rationale: "Elderly patients often have decreased thirst sensation and may not drink enough fluids, leading to dehydration and hypernatremia."
                 },
                 {
                     id: 117,
-                    question: "The nurse is preparing to hang the first liter of D5W following a 2-unit PRBC transfusion. The client's hematocrit rose from 24% to 29%, BP is 104/66 mm Hg. What is the best nursing action?",
+                    question: "The nurse is monitoring a patient receiving 0.9% NS at 125 mL/hr. How much fluid will the patient receive in 8 hours?",
                     options: [
-                        "Proceed with D5W at 125 mL/hr",
-                        "Hang 0.9% NS at 75 mL/hr",
-                        "Hold all IVFs for 1 h",
-                        "Start 5% albumin 250 mL"
+                        "500 mL",
+                        "750 mL",
+                        "1000 mL",
+                        "1500 mL"
                     ],
-                    correct: 1,
-                    rationale: "Dextrose-only solutions shift quickly into cells, lowering intravascular volume; isotonic saline maintains perfusion without diluting the transfusion benefit."
+                    correct: 2,
+                    rationale: "125 mL/hr × 8 hours = 1000 mL"
                 },
                 {
                     id: 118,
-                    question: "A client on a sodium-restricted diet asks why diet soda is discouraged. Which explanation by the nurse is accurate?",
+                    question: "Which symptom indicates hypocalcemia?",
                     options: [
-                        "Artificial sweeteners slow gastric emptying.",
-                        "Many diet sodas contain 35–45 mg sodium per can.",
-                        "Carbonation raises blood pressure directly.",
-                        "Diet drinks interact with furosemide."
+                        "Constipation",
+                        "Muscle cramps and spasms",
+                        "Decreased reflexes",
+                        "Bradycardia"
                     ],
                     correct: 1,
-                    rationale: "Diet sodas often contain sodium preservatives; the added intake undermines restriction goals."
+                    rationale: "Hypocalcemia causes increased neuromuscular excitability, leading to muscle cramps, spasms, and tetany."
                 },
                 {
                     id: 119,
-                    question: "Post-thyroidectomy calcium is 7.4 mg/dL. Which finding requires immediate intervention?",
+                    question: "A patient with hyponatremia would most likely report:",
                     options: [
-                        "Tingling fingers",
-                        "Tachycardia 104 bpm",
-                        "Mild incisional pain",
-                        "Hoarse voice"
+                        "Increased thirst",
+                        "Constipation",
+                        "Headache and confusion",
+                        "Muscle weakness only"
                     ],
-                    correct: 0,
-                    rationale: "Paresthesia heralds impending tetany; treat with IV calcium gluconate promptly."
+                    correct: 2,
+                    rationale: "Hyponatremia causes cerebral edema, leading to neurological symptoms like headache, confusion, and altered mental status."
                 },
                 {
                     id: 120,
-                    question: "Which clinical situations place a client at risk for developing metabolic acidosis? (Select two)",
+                    question: "Which nursing action is appropriate when administering IV potassium?",
                     options: [
-                        "Prolonged diarrhea",
-                        "Loop diuretic therapy",
-                        "Diabetic ketoacidosis",
-                        "Severe vomiting",
-                        "Hyperaldosteronism"
+                        "Give as IV push for faster effect",
+                        "Dilute in at least 100 mL of fluid",
+                        "Infuse at 20 mEq/hour",
+                        "Mix with calcium for stability"
                     ],
-                    correct: 0, // Note: SATA question
-                    rationale: "Bicarbonate loss from GI tract and keto-acid accumulation are classic metabolic acidosis causes; vomiting and aldosterone excess more often lead to alkalosis."
+                    correct: 1,
+                    rationale: "IV potassium must always be diluted (never given IV push) and infused slowly to prevent cardiac complications."
                 },
                 {
                     id: 121,
-                    question: "A nurse notes serum phosphate 5.6 mg/dL in a client with chronic kidney disease. Which dietary adjustment is most appropriate?",
+                    question: "The normal range for serum magnesium is:",
                     options: [
-                        "Increase dairy products",
-                        "Substitute egg whites for cheese",
-                        "Replace chicken with turkey",
-                        "Add peanut butter smoothies"
+                        "0.5-1.0 mEq/L",
+                        "1.5-2.5 mEq/L",
+                        "3.5-5.0 mEq/L",
+                        "8.5-10.5 mEq/L"
                     ],
                     correct: 1,
-                    rationale: "Lower-phosphate protein sources like egg whites curb phosphate load while maintaining nutrition."
+                    rationale: "Normal serum magnesium is 1.5-2.5 mEq/L. Both high and low levels can cause serious complications."
                 },
                 {
                     id: 122,
-                    question: "A marathon runner collapses; Na 149 mEq/L, temp 101.3 °F, HR 136 bpm. Which IV fluid is best for initial management?",
+                    question: "A patient receiving IV fluids develops shortness of breath and cough. The nurse should first:",
                     options: [
-                        "0.9% NS 1 L bolus",
-                        "D5W 500 mL",
-                        "0.45% NS 250 mL/hr",
-                        "3% NS 250 mL"
+                        "Increase the IV rate",
+                        "Lower the head of bed",
+                        "Slow or stop the IV infusion",
+                        "Encourage deep breathing"
                     ],
-                    correct: 0,
-                    rationale: "Isotonic saline repairs intravascular deficit from exertion and heat stress; hypotonic or hypertonic solutions risk cerebral edema or worsened hypernatremia."
+                    correct: 2,
+                    rationale: "Shortness of breath and cough during IV therapy may indicate fluid overload. The nurse should slow or stop the infusion and assess further."
                 },
                 {
                     id: 123,
-                    question: "Eight hours after parathyroidectomy the client's ionized calcium is 3.9 mg/dL (4.5-5.6), phosphorus 3.1 mg/dL. Which order should the nurse implement first?",
+                    question: "Which food should a patient on a low-sodium diet avoid?",
                     options: [
-                        "Phosphate binder with meals",
-                        "Oral calcium carbonate 1 g",
-                        "IV calcium gluconate 1 g in 100 mL D5W over 30 min",
-                        "Vitamin D 1,000 IU PO"
+                        "Fresh fruits",
+                        "Canned soup",
+                        "Plain rice",
+                        "Fresh vegetables"
                     ],
-                    correct: 2,
-                    rationale: "Symptomatic or significant hypocalcemia warrants rapid IV replacement before oral therapy."
+                    correct: 1,
+                    rationale: "Canned and processed foods like soup are typically high in sodium and should be avoided on a low-sodium diet."
                 },
                 {
                     id: 124,
-                    question: "A client receiving total parenteral nutrition develops serum potassium 6.1 mEq/L. Which medication does the nurse anticipate?",
+                    question: "A patient with hypermagnesemia would likely have:",
                     options: [
-                        "Sodium bicarbonate IV",
-                        "Calcium gluconate IV",
-                        "Hydrochlorothiazide PO",
-                        "Magnesium sulfate IV"
+                        "Hyperactive reflexes",
+                        "Muscle spasms",
+                        "Decreased deep tendon reflexes",
+                        "Seizures"
                     ],
-                    correct: 1,
-                    rationale: "IV calcium stabilizes cardiac membranes while additional measures lower potassium; bicarbonate or insulin may follow, yet membrane protection is first."
+                    correct: 2,
+                    rationale: "Hypermagnesemia depresses the nervous system, causing decreased or absent deep tendon reflexes."
                 },
                 {
                     id: 125,
-                    question: "Which assessment best indicates successful rehydration in an infant with gastroenteritis?",
+                    question: "The nurse notes that a patient's urine specific gravity is 1.035. This indicates:",
                     options: [
-                        "Capillary refill < 2 seconds",
-                        "Tearless crying",
-                        "Urine specific gravity 1.028",
-                        "Weight unchanged from admission"
+                        "Dilute urine",
+                        "Normal urine concentration",
+                        "Concentrated urine",
+                        "Kidney failure"
                     ],
-                    correct: 0,
-                    rationale: "Rapid capillary refill signals improved perfusion; specific gravity remains high and weight should increase."
+                    correct: 2,
+                    rationale: "Normal urine specific gravity is 1.010-1.025. A value of 1.035 indicates concentrated urine, often seen in dehydration."
                 },
                 {
                     id: 126,
-                    question: "During plasma transfusion a client develops tingling around the mouth and Chvostek sign. Which product in the blood bank would correct this?",
+                    question: "Which IV solution would be best for a patient with dehydration?",
                     options: [
-                        "Cryoprecipitate",
-                        "10% calcium chloride",
-                        "25% albumin",
-                        "FFP"
+                        "D5W",
+                        "0.45% sodium chloride",
+                        "0.9% sodium chloride",
+                        "3% sodium chloride"
                     ],
-                    correct: 1,
-                    rationale: "Rapid citrate binding of calcium may provoke hypocalcemia; IV calcium reverses symptoms."
+                    correct: 2,
+                    rationale: "0.9% sodium chloride (normal saline) is isotonic and best for replacing fluid volume in dehydration."
                 },
                 {
                     id: 127,
-                    question: "A patient with COPD retains CO₂ and has bicarbonate 33 mEq/L. How does the nurse interpret these findings?",
+                    question: "A patient complains of muscle weakness and fatigue. Labs show K+ 3.2 mEq/L. The nurse should:",
                     options: [
-                        "Uncompensated respiratory acidosis",
-                        "Fully compensated respiratory acidosis",
-                        "Metabolic alkalosis",
-                        "Mixed acidosis"
+                        "Encourage bed rest only",
+                        "Monitor for cardiac arrhythmias",
+                        "Restrict potassium intake",
+                        "Increase sodium intake"
                     ],
                     correct: 1,
-                    rationale: "Elevated PaCO₂ would lower pH, but elevated bicarbonate shows renal compensation, resulting in near-normal pH."
+                    rationale: "Hypokalemia (K+ 3.2) can cause dangerous cardiac arrhythmias. Cardiac monitoring is essential."
                 },
                 {
                     id: 128,
-                    question: "Select appropriate teaching points for a client starting hydrochlorothiazide. (Select all that apply)",
+                    question: "Which patient is at risk for hypokalemia?",
                     options: [
-                        "Rise slowly from sitting",
-                        "Eat oranges and bananas regularly",
-                        "Take the dose at bedtime",
-                        "Wear sunscreen outdoors",
-                        "Report urine output > 2 L/day immediately"
+                        "A patient taking potassium supplements",
+                        "A patient with chronic diarrhea",
+                        "A patient eating bananas daily",
+                        "A patient with decreased urine output"
                     ],
-                    correct: 0, // Note: SATA question
-                    rationale: "Orthostatic changes, potassium loss, and photosensitivity are common; morning dosing prevents nocturia."
+                    correct: 1,
+                    rationale: "Chronic diarrhea causes significant potassium loss through the GI tract, leading to hypokalemia."
                 },
                 {
                     id: 129,
-                    question: "Serum sodium rises from 137 to 145 mEq/L in four hours after hypertonic saline correction. Which action is best?",
+                    question: "The nurse is teaching about calcium-rich foods. Which food is highest in calcium?",
                     options: [
-                        "Continue current therapy",
-                        "Slow infusion rate by half",
-                        "Add mannitol 25 g IV",
-                        "Switch to 5% dextrose in water"
+                        "Orange juice",
+                        "Milk and dairy products",
+                        "Whole grain bread",
+                        "Lean meats"
                     ],
                     correct: 1,
-                    rationale: "Target correction is ≤ 8 mEq/L per 24 h; halving rate moderates pace while still correcting deficit."
+                    rationale: "Milk and dairy products are the best dietary sources of calcium."
                 },
                 {
                     id: 130,
-                    question: "A client develops sudden SOB while receiving packed cells. Crackles, BP 158/88, HR 112. Which order would help differentiate transfusion-associated circulatory overload (TACO) from transfusion-related acute lung injury (TRALI)?",
+                    question: "A patient's serum sodium is 128 mEq/L. This is considered:",
                     options: [
-                        "Obtain BNP level",
-                        "Administer epinephrine",
-                        "Draw blood cultures",
-                        "Collect type and screen"
+                        "Normal",
+                        "Slightly elevated",
+                        "Hyponatremia",
+                        "Hypernatremia"
                     ],
-                    correct: 0,
-                    rationale: "Elevated BNP suggests fluid overload (TACO); TRALI will not raise BNP."
+                    correct: 2,
+                    rationale: "Normal sodium is 135-145 mEq/L. A level of 128 is below normal, indicating hyponatremia."
                 },
                 {
                     id: 131,
-                    question: "Post-op labs: Hct 35%, Na 133 mEq/L, K 4.0 mEq/L, serum osmolality 274 mOsm/kg. Urine output has been 650 mL since 0200; urine specific gravity 1.002. Which condition is likely?",
+                    question: "Which sign indicates fluid volume deficit?",
                     options: [
-                        "Diabetes insipidus",
-                        "SIADH",
-                        "Prerenal azotemia",
-                        "Hypervolemic hyponatremia"
+                        "Weight gain",
+                        "Increased blood pressure",
+                        "Decreased urine output",
+                        "Peripheral edema"
                     ],
-                    correct: 0,
-                    rationale: "Large dilute urine with low gravity and mild hypernatremia after surgery point to DI."
+                    correct: 2,
+                    rationale: "In fluid volume deficit, the kidneys conserve water, resulting in decreased urine output."
                 },
                 {
                     id: 132,
-                    question: "Which factors increase a patient's risk for hypokalemia? (Select 3)",
+                    question: "A patient receiving a blood transfusion develops tingling around the mouth. This may indicate:",
                     options: [
-                        "Vomiting for three days",
-                        "ACE inhibitor therapy",
-                        "Insulin overdose",
-                        "Chronic steroid use",
-                        "Addison's disease"
+                        "Hyperkalemia",
+                        "Hypocalcemia",
+                        "Hypernatremia",
+                        "Hypomagnesemia"
                     ],
-                    correct: 0, // Note: SATA question
-                    rationale: "GI loss, intracellular shift with insulin, and renal loss with glucocorticoids deplete potassium; ACE inhibitors and adrenal insufficiency raise K+."
+                    correct: 1,
+                    rationale: "Citrate in stored blood can bind calcium, causing hypocalcemia with symptoms like perioral tingling."
                 },
                 {
                     id: 133,
-                    question: "The provider writes: \"D5W at 42 mL/hr to maintain IV line.\" The client is hyperglycemic with BG 268 mg/dL. Which action is best?",
+                    question: "The best indicator of fluid status is:",
                     options: [
-                        "Implement order as written",
-                        "Ask for 0.9% NS TKO",
-                        "Flush with heparinized saline every 8 h",
-                        "Convert to saline lock"
+                        "Skin turgor",
+                        "Daily weight",
+                        "Blood pressure",
+                        "Urine color"
                     ],
                     correct: 1,
-                    rationale: "Dextrose exacerbates hyperglycemia; isotonic saline maintains line patency without raising glucose."
+                    rationale: "Daily weight is the most accurate indicator of fluid balance. 1 kg weight change = 1 liter of fluid."
                 },
                 {
                     id: 134,
-                    question: "A client on digoxin shows K 3.2 mEq/L. Which rhythm change is the nurse most concerned about?",
+                    question: "A patient has a calcium level of 11.5 mg/dL. The nurse would expect:",
                     options: [
-                        "A-fib with RVR",
-                        "Ventricular bigeminy",
-                        "Sinus bradycardia 54 bpm",
-                        "Short PR interval"
+                        "Muscle spasms",
+                        "Hyperactive reflexes",
+                        "Lethargy and weakness",
+                        "Tetany"
                     ],
-                    correct: 1,
-                    rationale: "Hypokalemia enhances digoxin sensitivity, predisposing to ventricular ectopy and arrhythmias."
+                    correct: 2,
+                    rationale: "Hypercalcemia (Ca++ >10.5) depresses neuromuscular activity, causing weakness, fatigue, and lethargy."
                 },
                 {
                     id: 135,
-                    question: "Post-thyroid storm management includes IV fluids. Which solution best prevents hyponatremia while replacing volume?",
+                    question: "Which electrolyte imbalance can cause seizures?",
                     options: [
-                        "D5W",
-                        "0.9% NS",
-                        "0.45% NS",
-                        "D5 0.45% NS"
+                        "Mild hyperkalemia",
+                        "Severe hyponatremia",
+                        "Mild hypercalcemia",
+                        "Slight hypermagnesemia"
                     ],
                     correct: 1,
-                    rationale: "NS maintains sodium; D5W may dilute sodium further."
+                    rationale: "Severe hyponatremia can cause cerebral edema and seizures due to fluid shifts in the brain."
                 },
                 {
                     id: 136,
-                    question: "A client with Cushing disease exhibits edema and weight gain. Serum sodium 148 mEq/L, potassium 3.3 mEq/L. Which diuretic prescription is most appropriate?",
+                    question: "A patient on diuretics should increase intake of which food?",
                     options: [
-                        "Furosemide 40 mg IV twice daily",
-                        "Hydrochlorothiazide 25 mg PO daily",
-                        "Spironolactone 50 mg PO twice daily",
-                        "Mannitol 100 g IV PRN"
+                        "Canned vegetables",
+                        "White bread",
+                        "Oranges and bananas",
+                        "Processed meats"
                     ],
                     correct: 2,
-                    rationale: "Aldosterone excess causes Na⁺ retention and K⁺ loss; spironolactone antagonizes aldosterone and spares potassium."
+                    rationale: "Oranges and bananas are high in potassium, which is often lost with diuretic therapy."
                 },
                 {
                     id: 137,
-                    question: "A trauma patient receives 3 L NS rapidly; ABG shows pH 7.31, HCO₃⁻ 19 mEq/L, PaCO₂ 31 mm Hg. How does the nurse interpret this?",
+                    question: "The nurse notices a patient's IV site is red, warm, and painful. This indicates:",
                     options: [
-                        "Metabolic acidosis partially compensated",
-                        "Respiratory alkalosis",
-                        "Mixed alkalosis",
-                        "Uncompensated metabolic acidosis"
+                        "Normal IV function",
+                        "Infiltration",
+                        "Phlebitis",
+                        "Extravasation"
                     ],
-                    correct: 0,
-                    rationale: "Normal saline in large volumes causes hyperchloremic metabolic acidosis; low PaCO₂ shows respiratory compensation, but pH still acidic."
+                    correct: 2,
+                    rationale: "Phlebitis is inflammation of the vein, characterized by redness, warmth, and pain at the IV site."
                 },
                 {
                     id: 138,
-                    question: "Which medication must be held 8 h prior to radioiodine uptake test?",
+                    question: "Which symptom indicates hyperkalemia?",
                     options: [
-                        "Furosemide",
-                        "Metformin",
-                        "Dexamethasone",
-                        "Terazosin"
+                        "Muscle weakness and fatigue",
+                        "Constipation",
+                        "Increased appetite",
+                        "Hyperactive bowel sounds"
                     ],
-                    correct: 1,
-                    rationale: "Metformin poses risk of lactic acidosis with iodinated contrast; withholding reduces renal stress."
+                    correct: 0,
+                    rationale: "Both hypokalemia and hyperkalemia can cause muscle weakness, but hyperkalemia also causes ascending muscle weakness that can lead to paralysis."
                 },
                 {
                     id: 139,
-                    question: "A septic client receives 8 mEq/kg isotonic bicarbonate over 4 h. Which complication should the nurse watch for?",
+                    question: "A patient needs 1000 mL of fluid over 8 hours. The IV tubing delivers 15 drops/mL. What is the drip rate?",
                     options: [
-                        "Hypokalemia",
-                        "Hyperchloremia",
-                        "Respiratory acidosis",
-                        "Increased ionized calcium"
+                        "21 drops/minute",
+                        "31 drops/minute",
+                        "42 drops/minute",
+                        "125 drops/minute"
                     ],
-                    correct: 0,
-                    rationale: "Rapid alkalinization shifts potassium into cells, dropping serum K⁺."
+                    correct: 1,
+                    rationale: "1000 mL ÷ 8 hours = 125 mL/hr. 125 mL/hr × 15 drops/mL ÷ 60 min = 31.25 drops/minute."
                 },
                 {
                     id: 140,
-                    question: "Appropriate nursing actions for blood transfusion in a client with existing fluid overload? (Select 2)",
+                    question: "Which patient statement indicates understanding of a low-sodium diet?",
                     options: [
-                        "Use a diuretic between units",
-                        "Infuse each unit over 2 h maximum",
-                        "Position supine during transfusion",
-                        "Employ a \"Y\" set with 0.9% NS only",
-                        "Prime tubing with dextrose solution"
+                        "I can use salt substitute freely",
+                        "I will avoid canned and processed foods",
+                        "I should drink sports drinks for electrolytes",
+                        "Sea salt is okay to use"
                     ],
-                    correct: 0, // Note: SATA question
-                    rationale: "Loop diuresis prevents fluid excess; NS is the only compatible priming fluid. Slower infusion (up to 4 h) and semi-Fowler's improve tolerance."
+                    correct: 1,
+                    rationale: "Canned and processed foods are high in sodium. Salt substitutes often contain potassium and should be used cautiously."
                 },
                 {
                     id: 141,
-                    question: "Hypophosphatemia (1.9 mg/dL) develops in a chronic alcoholic. Which symptom supports this lab value?",
+                    question: "A patient has not urinated in 8 hours. The nurse should first:",
                     options: [
-                        "Seizures",
-                        "Hemolytic anemia",
-                        "Bone pain",
-                        "Trousseau sign"
+                        "Insert a urinary catheter",
+                        "Increase IV fluid rate",
+                        "Assess the bladder for distention",
+                        "Call the physician immediately"
                     ],
-                    correct: 1,
-                    rationale: "Severe phosphate depletion destabilizes red cell membranes, causing hemolysis."
+                    correct: 2,
+                    rationale: "The first nursing action is assessment. The nurse should assess for bladder distention to determine if urine is being produced but not voided."
                 },
                 {
                     id: 142,
-                    question: "A client on ACE inhibitors and potassium supplements presents with K 5.9 mEq/L. What is the safest dietary recommendation?",
+                    question: "Normal urine output for an adult is approximately:",
                     options: [
-                        "Replace bananas with apples",
-                        "Add salt substitutes to meals",
-                        "Increase orange juice intake",
-                        "Use dried apricots for snacks"
+                        "10-20 mL/hour",
+                        "30-50 mL/hour",
+                        "100-200 mL/hour",
+                        "500-1000 mL/hour"
                     ],
-                    correct: 0,
-                    rationale: "Apples are low in potassium; salt substitutes often contain potassium chloride and should be avoided."
+                    correct: 1,
+                    rationale: "Normal adult urine output is 30-50 mL/hour or approximately 0.5-1 mL/kg/hour."
                 },
                 {
                     id: 143,
-                    question: "During adrenal crisis the nurse anticipates which IV fluid?",
+                    question: "Which IV fluid is hypotonic?",
                     options: [
-                        "D5W with 20 mEq KCl",
-                        "0.9% NS with 5% dextrose",
-                        "3% NS",
-                        "Lactated Ringer's"
+                        "0.9% sodium chloride",
+                        "Lactated Ringer's",
+                        "0.45% sodium chloride",
+                        "5% dextrose in 0.9% saline"
                     ],
-                    correct: 1,
-                    rationale: "Addisonian crisis needs isotonic saline for volume plus dextrose to correct hypoglycemia."
+                    correct: 2,
+                    rationale: "0.45% sodium chloride (half normal saline) is hypotonic with lower osmolality than blood plasma."
                 },
                 {
                     id: 144,
-                    question: "An infant receiving gentamicin shows BUN 24 mg/dL, Cr 1.2 mg/dL (elevated). Which indicator best signals worsening renal failure?",
+                    question: "A patient with hypomagnesemia might experience:",
                     options: [
-                        "Urine output dropping to 0.6 mL/kg/hr",
-                        "Rising hemoglobin",
-                        "Serum sodium 140 mEq/L",
-                        "Weight stable over 24 h"
+                        "Decreased reflexes",
+                        "Muscle weakness only",
+                        "Tremors and hyperactive reflexes",
+                        "Bradycardia"
                     ],
-                    correct: 0,
-                    rationale: "Oliguria is an early clinical sign of declining renal function."
+                    correct: 2,
+                    rationale: "Hypomagnesemia causes increased neuromuscular excitability with tremors, hyperactive reflexes, and possible seizures."
                 },
                 {
                     id: 145,
-                    question: "ABG: pH 7.48, PaCO₂ 30 mm Hg, HCO₃⁻ 22 mEq/L. Which cause fits this pattern?",
+                    question: "The nurse should question an order for potassium supplements in a patient with:",
                     options: [
-                        "Severe vomiting",
-                        "Anxiety attack with hyperventilation",
-                        "Diarrhea",
-                        "Diuretic overuse"
+                        "Loop diuretic therapy",
+                        "Chronic diarrhea",
+                        "Decreased urine output",
+                        "Vomiting"
                     ],
-                    correct: 1,
-                    rationale: "Respiratory alkalosis stems from excessive CO₂ loss during hyperventilation; metabolic values remain near normal."
+                    correct: 2,
+                    rationale: "Decreased urine output may indicate kidney problems. Potassium is excreted by the kidneys, so supplements could cause dangerous hyperkalemia."
                 },
                 {
                     id: 146,
-                    question: "A diuretic-naïve patient receives furosemide 80 mg IV. Ten minutes later BP is 76/40 mm Hg. Which action is priority?",
+                    question: "Which assessment finding indicates dehydration in an elderly patient?",
                     options: [
-                        "Elevate legs and infuse NS bolus",
-                        "Administer IV vasopressin",
-                        "Start dopamine drip",
-                        "Obtain stat ECG"
+                        "Decreased skin turgor on hand",
+                        "Confusion and weakness",
+                        "Blood pressure 140/90",
+                        "Weight gain"
                     ],
-                    correct: 0,
-                    rationale: "Rapid intravascular depletion led to hypotension; leg elevation and isotonic bolus restore preload."
+                    correct: 1,
+                    rationale: "In elderly patients, confusion and weakness are better indicators of dehydration than skin turgor, which decreases with aging."
                 },
                 {
                     id: 147,
-                    question: "A client with SIADH has serum sodium 122 mEq/L and weight gain 3 kg in 48 h. Which medication supports correction of this disorder?",
+                    question: "A patient's phosphorus level is 2.0 mg/dL. This indicates:",
                     options: [
-                        "Desmopressin nasal spray",
-                        "Demeclocycline PO",
-                        "Hydrochlorothiazide PO",
-                        "Fludrocortisone PO"
+                        "Normal phosphorus",
+                        "Hypophosphatemia",
+                        "Hyperphosphatemia",
+                        "Critical high level"
                     ],
                     correct: 1,
-                    rationale: "Demeclocycline induces nephrogenic diabetes insipidus, promoting free-water loss."
+                    rationale: "Normal phosphorus is 2.5-4.5 mg/dL. A level of 2.0 is below normal, indicating hypophosphatemia."
                 },
                 {
                     id: 148,
-                    question: "A nurse must identify the first sign of digoxin toxicity in an older adult. Which assessment is most sensitive?",
+                    question: "Which nursing action prevents complications when hanging a new IV bag?",
                     options: [
-                        "Serum digoxin level",
-                        "New anorexia",
-                        "Color vision changes",
-                        "PR-interval prolongation"
+                        "Warm the solution first",
+                        "Check the solution expiration date",
+                        "Add medications to the bag",
+                        "Use the same tubing for 7 days"
                     ],
                     correct: 1,
-                    rationale: "Early GI symptoms such as anorexia often precede arrhythmias or visual changes."
+                    rationale: "Always check expiration dates before administering any IV solution to ensure patient safety."
                 },
                 {
                     id: 149,
-                    question: "After aggressive saline resuscitation the client's chloride is 112 mEq/L (96-106). Which acid-base change does the nurse monitor for?",
+                    question: "A patient receiving IV therapy complains of pain at the insertion site. The nurse notes swelling and coolness. This indicates:",
                     options: [
-                        "Metabolic acidosis",
-                        "Respiratory acidosis",
-                        "Metabolic alkalosis",
-                        "Respiratory alkalosis"
+                        "Normal IV function",
+                        "Infiltration",
+                        "Infection",
+                        "Phlebitis"
                     ],
-                    correct: 0,
-                    rationale: "Hyperchloremia replaces bicarbonate, lowering pH and producing a normal-anion-gap metabolic acidosis."
+                    correct: 1,
+                    rationale: "Pain, swelling, and coolness at an IV site indicate infiltration - fluid leaking into surrounding tissue."
                 },
                 {
                     id: 150,
-                    question: "A client on parenteral nutrition has phosphate 5.7 mg/dL and calcium 8.7 mg/dL. Which adjustment prevents complications?",
+                    question: "Which patient is at highest risk for fluid volume excess?",
                     options: [
-                        "Increase calcium gluconate in TPN",
-                        "Decrease phosphate content in next bag",
-                        "Add sodium bicarbonate",
-                        "Switch to lipid-only feeding"
+                        "A marathon runner",
+                        "A patient with heart failure",
+                        "A patient with diarrhea",
+                        "A patient with fever"
                     ],
                     correct: 1,
-                    rationale: "High phosphate with low-normal calcium risks precipitation; reducing phosphate maintains solubility and prevents hypocalcemia."
+                    rationale: "Heart failure impairs the heart's ability to pump effectively, leading to fluid retention and volume excess."
                 },
                 {
                     id: 151,
-                    question: "A patient with a GI bleed (BP 86/52 mm Hg) is receiving 0.9% NaCl at 250 mL/hr. After 500 mL the pressure rises to 104/62 mm Hg, HR 96 bpm. Which order should the nurse seek next?",
+                    question: "The normal range for serum sodium is:",
                     options: [
-                        "Continue isotonic saline at current rate",
-                        "Switch to 0.45% NaCl at 150 mL/hr",
-                        "Add 40 mEq KCl to each liter",
-                        "Begin D5W at 125 mL/hr"
+                        "98-106 mEq/L",
+                        "135-145 mEq/L",
+                        "3.5-5.0 mEq/L",
+                        "8.5-10.5 mEq/L"
                     ],
-                    correct: 0,
-                    rationale: "Volume resuscitation remains the priority until hemodynamics stabilize further; hypotonic or dextrose solutions would lower vascular volume."
+                    correct: 1,
+                    rationale: "Normal serum sodium is 135-145 mEq/L. This is essential to memorize for safe patient care."
                 },
                 {
                     id: 152,
-                    question: "An NPO post-operative client has maintenance LR at 125 mL/hr. Morning labs: Na 139 mEq/L, K 4.2 mEq/L, lactate 1.3 mmol/L. Urine output is 40 mL/hr. Which statement best explains why LR is appropriate?",
+                    question: "A patient asks why they need to eat bananas while taking furosemide. The nurse explains:",
                     options: [
-                        "LR corrects mild metabolic acidosis.",
-                        "LR is hypotonic and hydrates cells.",
-                        "LR contains glucose for basal energy.",
-                        "LR lowers potassium to prevent arrhythmia."
+                        "Bananas prevent constipation from the medication",
+                        "Bananas help replace potassium lost through increased urination",
+                        "Bananas improve medication absorption",
+                        "Bananas prevent nausea from the medication"
                     ],
-                    correct: 0,
-                    rationale: "Lactate in LR functions as a bicarbonate precursor, buffering mild acid load common in immediate post-op periods."
+                    correct: 1,
+                    rationale: "Furosemide is a loop diuretic that increases potassium loss. Bananas are high in potassium and help prevent hypokalemia."
                 },
                 {
                     id: 153,
-                    question: "The provider writes: \"Switch to 0.45% NaCl when systolic BP > 100 mm Hg for two readings 15 min apart.\" Which nursing action is safest?",
+                    question: "Which sign would the nurse expect in a patient with fluid volume deficit?",
                     options: [
-                        "Change fluids once SBP = 102 mm Hg for 15 min",
-                        "Verify second reading in opposite arm before switching",
-                        "Reduce current rate to 50 mL/hr while waiting",
-                        "Begin 0.45% NaCl immediately because BP is trending up"
+                        "Bounding pulse",
+                        "Increased blood pressure",
+                        "Dry mucous membranes",
+                        "Weight gain"
                     ],
-                    correct: 1,
-                    rationale: "Confirming stability in two limbs avoids pseudohypertension from local factors."
+                    correct: 2,
+                    rationale: "Fluid volume deficit causes dehydration of tissues, resulting in dry mucous membranes."
                 },
                 {
                     id: 154,
-                    question: "A client with cerebral edema is receiving 3% NaCl 30 mL/hr. Two hours later Na rises from 122 → 129 mEq/L. What is the priority?",
+                    question: "A patient has edema in both ankles. This is documented as:",
                     options: [
-                        "Stop infusion; notify provider",
-                        "Increase rate to 50 mL/hr",
-                        "Administer furosemide 20 mg IV",
-                        "Replace 3% NaCl with LR"
+                        "Generalized edema",
+                        "Pitting edema",
+                        "Dependent edema",
+                        "Periorbital edema"
                     ],
-                    correct: 0,
-                    rationale: "Safe correction must not exceed ~8 mEq/L in 24 h; halting limits the pace."
+                    correct: 2,
+                    rationale: "Dependent edema occurs in the lowest parts of the body due to gravity, commonly seen in ankles and feet."
                 },
                 {
                     id: 155,
-                    question: "The nurse cares for a client with ascites receiving 25% albumin followed by furosemide. Which findings indicate the combination is working? (Select all that apply)",
+                    question: "The nurse is teaching about foods high in sodium. Which food should be limited?",
                     options: [
-                        "Urine output rises from 20 → 55 mL/hr",
-                        "Abdominal girth decreases 4 cm in 8 h",
-                        "Serum sodium falls from 136 → 128 mEq/L",
-                        "Weight drops 1 kg overnight",
-                        "Mean arterial pressure declines from 86 → 70 mm Hg"
+                        "Fresh chicken",
+                        "Bacon",
+                        "Plain rice",
+                        "Fresh fruits"
                     ],
-                    correct: 0, // Note: SATA question
-                    rationale: "Increased urine output, decreased abdominal girth, and weight loss indicate successful fluid mobilization and removal."
+                    correct: 1,
+                    rationale: "Bacon and other processed meats are very high in sodium and should be limited on a low-sodium diet."
                 },
                 {
                     id: 156,
-                    question: "While 0.45% NaCl is infusing, the client becomes restless and BP falls from 112/74 → 92/64 mm Hg. Initial nursing action?",
+                    question: "A patient's potassium level is 5.8 mEq/L. The nurse should first:",
                     options: [
-                        "Stop infusion and hang 0.9% NaCl",
-                        "Lower HOB and increase rate by 50 mL/hr",
-                        "Assess capillary refill and recheck BP in 30 min",
-                        "Call rapid response"
+                        "Encourage potassium-rich foods",
+                        "Check for ECG changes",
+                        "Increase IV fluid rate",
+                        "Give potassium supplements"
                     ],
-                    correct: 0,
-                    rationale: "Hypotonic fluids can precipitate vascular collapse if given before volume is secure."
+                    correct: 1,
+                    rationale: "Hyperkalemia (K+ >5.0) can cause life-threatening cardiac arrhythmias. ECG monitoring is the priority."
                 },
                 {
                     id: 157,
-                    question: "A new order reads \"D5W at 75 mL/hr for an NPO type 2 diabetic (BG 98 mg/dL).\" Why is this choice reasonable?",
+                    question: "Which IV solution would the nurse question for a patient with hypernatremia?",
                     options: [
-                        "Prevents ketosis while avoiding excess sodium",
-                        "Maintains oncotic pressure",
-                        "Replaces potassium lost through urine",
-                        "Increases serum osmolality to prevent cerebral edema"
+                        "0.45% sodium chloride",
+                        "D5W",
+                        "3% sodium chloride",
+                        "Lactated Ringer's"
                     ],
-                    correct: 0,
-                    rationale: "D5W provides glucose to prevent starvation ketosis in NPO patients without adding sodium load."
+                    correct: 2,
+                    rationale: "3% sodium chloride is hypertonic saline and would worsen hypernatremia. The patient needs hypotonic fluids."
                 },
                 {
                     id: 158,
-                    question: "During 3% NaCl infusion the client reports difficulty breathing. Auscultation reveals new crackles. Priority nursing action?",
+                    question: "A patient reports muscle cramps and weakness. Which electrolyte imbalance is most likely?",
                     options: [
-                        "Slow infusion to half the rate",
-                        "Stop infusion and obtain stat chest x-ray",
-                        "Draw serum sodium immediately",
-                        "Administer IV morphine 2 mg for dyspnea"
+                        "Hypernatremia",
+                        "Hypokalemia",
+                        "Hypercalcemia",
+                        "Hyperphosphatemia"
                     ],
                     correct: 1,
-                    rationale: "Pulmonary congestion signals fluid shift; stopping prevents worsening while evaluation proceeds."
+                    rationale: "Hypokalemia commonly causes muscle cramps, weakness, and fatigue due to impaired muscle function."
                 },
                 {
                     id: 159,
-                    question: "A trauma client receiving NS develops chloride 111 mEq/L, HCO₃⁻ 18 mEq/L. Which acid–base pattern is expected?",
+                    question: "The nurse notes carpopedal spasms in a patient. This finding suggests:",
                     options: [
-                        "Metabolic acidosis",
-                        "Metabolic alkalosis",
-                        "Respiratory acidosis",
-                        "Mixed alkalosis"
+                        "Hypercalcemia",
+                        "Hypocalcemia",
+                        "Hyperkalemia",
+                        "Hyponatremia"
                     ],
-                    correct: 0,
-                    rationale: "High chloride from normal saline causes non-anion gap metabolic acidosis by displacing bicarbonate."
+                    correct: 1,
+                    rationale: "Carpopedal spasms (muscle spasms of hands and feet) are classic signs of hypocalcemia and tetany."
                 },
                 {
                     id: 160,
-                    question: "Which factors raise a hospitalized client's risk for phlebitis? (Select all that apply)",
+                    question: "Which patient statement indicates a need for further teaching about fluid restriction?",
                     options: [
-                        "18-gauge catheter in dorsal hand vein",
-                        "Vancomycin piggyback twice daily",
-                        "Continuous heparin infusion via pump",
-                        "Arm board stabilizing antecubital IV",
-                        "Failure to change tubing after 96 h"
+                        "I'll measure all fluids I drink",
+                        "Ice chips don't count as fluid intake",
+                        "I'll rinse my mouth when thirsty",
+                        "I'll save some fluid allowance for medications"
                     ],
-                    correct: 0, // Note: SATA question
-                    rationale: "Large catheter in small vein, irritating medications, and old tubing increase phlebitis risk."
+                    correct: 1,
+                    rationale: "Ice chips DO count as fluid intake. When melted, they equal about half their frozen volume."
                 },
                 {
                     id: 161,
-                    question: "While starting an IV the tourniquet is left in place for 5 min. The site becomes bruised and painful. The most likely complication is",
+                    question: "A patient with diarrhea for 3 days is at risk for which electrolyte imbalance?",
                     options: [
-                        "Infiltration",
-                        "Venous spasm",
-                        "Hematoma",
-                        "Air embolus"
+                        "Hyperkalemia",
+                        "Hypokalemia",
+                        "Hypercalcemia",
+                        "Hypermagnesemia"
                     ],
-                    correct: 2,
-                    rationale: "Prolonged tourniquet application causes venous engorgement and vessel trauma, leading to blood leaking into tissues (hematoma)."
+                    correct: 1,
+                    rationale: "Diarrhea causes significant potassium loss through the GI tract, leading to hypokalemia."
                 },
                 {
                     id: 162,
-                    question: "A client on strict I&O drank 240 mL coffee, 120 mL juice, received 300 mL IV medication and produced 460 mL urine plus emesis 80 mL. What is the net fluid balance for this 6-h period?",
+                    question: "The nurse is calculating intake and output. The patient drank 240 mL of juice and 120 mL of coffee. What is the total intake?",
                     options: [
-                        "+100 mL",
-                        "+220 mL",
-                        "–220 mL",
-                        "–100 mL"
+                        "120 mL",
+                        "240 mL",
+                        "360 mL",
+                        "480 mL"
                     ],
-                    correct: 0,
-                    rationale: "Intake = 240 + 120 + 300 = 660 mL; output = 460 + 80 = 540 mL; net = +120 mL → nearest answer +100 mL"
+                    correct: 2,
+                    rationale: "240 mL + 120 mL = 360 mL total intake"
                 },
                 {
                     id: 163,
-                    question: "When selecting an IV site for a client who self-reports \"difficult veins,\" which principle guides the nurse?",
+                    question: "Which symptom suggests hypernatremia?",
                     options: [
-                        "Choose antecubital first for larger size",
-                        "Attempt foot veins because hands failed last admission",
-                        "Start distally and move proximally if needed",
-                        "Use smallest visible vein to reduce pain"
+                        "Muscle cramps",
+                        "Confusion",
+                        "Intense thirst",
+                        "Slow pulse"
                     ],
                     correct: 2,
-                    rationale: "Starting distally preserves proximal sites for future use if the initial attempt fails or infiltrates."
+                    rationale: "Intense thirst is a classic symptom of hypernatremia as the body attempts to dilute the high sodium levels."
                 },
                 {
                     id: 164,
-                    question: "The client complains of tingling at IV site; blanching noted, cool to touch. Pump shows downstream occlusion alarm. Best immediate response?",
+                    question: "A patient receiving IV fluids has gained 3 pounds since yesterday. The nurse recognizes this indicates:",
                     options: [
-                        "Elevate extremity and slow rate",
-                        "Stop infusion and disconnect tubing",
-                        "Reposition limb and restart pump",
-                        "Apply warm compress 20 min"
+                        "Improved nutrition",
+                        "About 1500 mL fluid retention",
+                        "Normal daily weight fluctuation",
+                        "Medication side effect"
                     ],
                     correct: 1,
-                    rationale: "Classic signs of infiltration require prompt discontinuation."
+                    rationale: "1 pound = approximately 500 mL of fluid. 3 pounds = about 1500 mL of retained fluid."
                 },
                 {
                     id: 165,
-                    question: "An order reads \"LR 1 L over 4 h.\" Which pump setting is correct?",
+                    question: "The nurse teaches a patient to eat oranges while taking furosemide because oranges are high in:",
                     options: [
-                        "200 mL/hr",
-                        "250 mL/hr",
-                        "225 mL/hr",
-                        "150 mL/hr"
+                        "Sodium",
+                        "Calcium",
+                        "Potassium",
+                        "Magnesium"
                     ],
-                    correct: 1,
-                    rationale: "1000 mL ÷ 4 hours = 250 mL/hr"
+                    correct: 2,
+                    rationale: "Oranges are high in potassium, which helps replace potassium lost through diuretic therapy."
                 },
                 {
                     id: 166,
-                    question: "During orientation a novice nurse suggests flushing a peripheral IV with 10 mL heparin-saline. The preceptor's best response:",
+                    question: "Which nursing intervention is appropriate for a patient with hyponatremia?",
                     options: [
-                        "Heparin is reserved for central lines; use 0.9% NaCl.",
-                        "That prevents infection, so proceed.",
-                        "Flush only if blood return is absent.",
-                        "Use 5 mL to avoid fluid overload."
+                        "Encourage water intake",
+                        "Restrict fluid intake",
+                        "Give salt tablets",
+                        "Increase potassium intake"
                     ],
-                    correct: 0,
-                    rationale: "Heparin is reserved for central lines; use 0.9% NaCl."
+                    correct: 1,
+                    rationale: "Hyponatremia is often dilutional (too much water relative to sodium). Fluid restriction helps concentrate sodium levels."
                 },
                 {
                     id: 167,
-                    question: "A septic client is resuscitated with balanced crystalloids rather than NS. Primary advantage?",
+                    question: "A patient's morning weight is 2 kg less than yesterday. This indicates a fluid loss of approximately:",
                     options: [
-                        "Less risk of hyperchloremic acidosis",
-                        "Higher oncotic pressure",
-                        "Greater glucose supply",
-                        "Stronger vasoconstrictive effect"
+                        "500 mL",
+                        "1000 mL",
+                        "2000 mL",
+                        "3000 mL"
                     ],
-                    correct: 0,
-                    rationale: "Balanced crystalloids contain less chloride than NS, reducing risk of hyperchloremic metabolic acidosis."
+                    correct: 2,
+                    rationale: "1 kg weight change = 1 liter (1000 mL) of fluid. 2 kg loss = 2000 mL fluid loss."
                 },
                 {
                     id: 168,
-                    question: "A patient with mild dehydration wants to know why flavored sports drinks are preferred over water alone. Best explanation:",
+                    question: "The nurse assesses skin turgor by:",
                     options: [
-                        "They contain electrolytes that help keep fluid in the vascular space.",
-                        "Flavoring speeds gastric emptying for faster absorption.",
-                        "Sugar raises blood pressure rapidly.",
-                        "Coloring agents stimulate thirst center."
+                        "Pressing on the ankle",
+                        "Pinching skin on the back of the hand",
+                        "Checking capillary refill",
+                        "Measuring blood pressure"
                     ],
-                    correct: 0,
-                    rationale: "They contain electrolytes that help keep fluid in the vascular space."
+                    correct: 1,
+                    rationale: "Skin turgor is assessed by gently pinching the skin and observing how quickly it returns to normal position."
                 },
                 {
                     id: 169,
-                    question: "A client taking ACE inhibitors becomes hypotensive after 500 mL NS bolus. Likely cause?",
+                    question: "Which IV complication requires immediate removal of the IV catheter?",
                     options: [
-                        "Third-spacing from capillary leak",
-                        "Bradycardia from medication",
-                        "Hyperkalemia reducing vascular tone",
-                        "Allergic reaction to chloride"
+                        "Slight redness at site",
+                        "Patient complains of mild discomfort",
+                        "Red streak extending up the arm",
+                        "Small bruise at insertion site"
                     ],
-                    correct: 0,
-                    rationale: "ACE inhibitors can contribute to capillary leak syndrome in sepsis or inflammation, causing fluid to shift out of vessels."
+                    correct: 2,
+                    rationale: "A red streak extending from the IV site indicates phlebitis progressing up the vein, requiring immediate IV removal."
                 },
                 {
                     id: 170,
-                    question: "Which prescriptions should the nurse question for a patient in fluid volume excess? (Select all that apply)",
+                    question: "A patient with hyperkalemia should avoid which food?",
                     options: [
-                        "D5W at 125 mL/hr",
-                        "Albumin 5% 250 mL over 30 min",
-                        "IV heparin 1,000 units/hr",
-                        "0.9% NaCl 150 mL/hr",
-                        "Furosemide 40 mg IV twice daily"
+                        "White rice",
+                        "Apples",
+                        "Potatoes",
+                        "White bread"
                     ],
-                    correct: 0, // Note: SATA question
-                    rationale: "D5W, albumin, and NS would worsen fluid overload; heparin is neutral; furosemide helps remove excess."
+                    correct: 2,
+                    rationale: "Potatoes are high in potassium and should be avoided with hyperkalemia to prevent further elevation."
                 },
                 {
                     id: 171,
-                    question: "After two days of hypotonic fluids a client's Na rises from 130 → 136 mEq/L and BP drops from 118/72 → 96/68 mm Hg. Interpretation?",
+                    question: "The nurse notes that a patient's urine is dark amber. This most likely indicates:",
                     options: [
-                        "Treatment goal reached; continue",
-                        "Overcorrection; add free water",
-                        "Intravascular depletion from hypotonic shift",
-                        "SIADH developing"
+                        "Normal hydration",
+                        "Overhydration",
+                        "Dehydration",
+                        "Kidney disease"
                     ],
                     correct: 2,
-                    rationale: "Hypotonic fluids shift water into cells, depleting intravascular volume despite correcting sodium."
+                    rationale: "Dark amber urine indicates concentrated urine, typically seen with dehydration."
                 },
                 {
                     id: 172,
-                    question: "Which client is most at risk for developing hyponatremia after receiving D5W?",
+                    question: "Which patient statement shows understanding of hyperkalemia precautions?",
                     options: [
-                        "21-year-old marathon runner with heat cramps",
-                        "76-year-old with pneumonia and SIADH history",
-                        "45-year-old with diabetic ketoacidosis",
-                        "32-year-old postpartum with uterine atony"
+                        "I'll use salt substitute instead of regular salt",
+                        "I'll avoid bananas and orange juice",
+                        "I'll increase my intake of green vegetables",
+                        "I'll take my potassium supplement daily"
                     ],
                     correct: 1,
-                    rationale: "Elderly patients with SIADH cannot excrete free water efficiently, making D5W dangerous."
+                    rationale: "Bananas and orange juice are high in potassium and should be avoided with hyperkalemia."
                 },
                 {
                     id: 173,
-                    question: "A child with burns covering 25% TBSA is ordered LR. Why is LR preferred to NS in this scenario?",
+                    question: "A patient receiving magnesium sulfate should be monitored for:",
                     options: [
-                        "Adds dextrose for metabolic demand",
-                        "Supplies lactate to buffer metabolic acidosis",
-                        "Lowers potassium rapidly",
-                        "Contains less chloride, preventing alkalosis"
+                        "Hyperactive reflexes",
+                        "Respiratory depression",
+                        "Increased bowel sounds",
+                        "Tachycardia"
                     ],
                     correct: 1,
-                    rationale: "Supplies lactate to buffer metabolic acidosis"
+                    rationale: "High magnesium levels can depress respirations. Monitor respiratory rate closely during magnesium administration."
                 },
                 {
                     id: 174,
-                    question: "During blood transfusion the nurse plans to administer a diuretic between units to a heart-failure client. Which diuretic is most appropriate?",
+                    question: "The best position for a patient with fluid volume excess is:",
                     options: [
-                        "Mannitol 12.5 g IV",
-                        "Bumetanide 1 mg IV",
-                        "Hydrochlorothiazide 25 mg PO",
-                        "Spironolactone 25 mg PO"
+                        "Flat in bed",
+                        "Trendelenburg",
+                        "High-Fowler's",
+                        "Prone"
                     ],
-                    correct: 1,
-                    rationale: "Short-acting loop diuretic minimizes volume excess without delaying transfusion."
+                    correct: 2,
+                    rationale: "High-Fowler's position helps reduce venous return and makes breathing easier for patients with fluid overload."
                 },
                 {
                     id: 175,
-                    question: "A student nurse labels D5 0.45% NaCl as isotonic. Preceptor response?",
+                    question: "Which finding indicates successful treatment of dehydration?",
                     options: [
-                        "Correct—it behaves like isotonic.",
-                        "Re-label: it becomes hypertonic.",
-                        "Actually, it's hypotonic once dextrose is metabolized.",
-                        "Solution classification changes only outside the body."
+                        "Decreased urine output",
+                        "Increased skin turgor",
+                        "Weight loss",
+                        "Elevated heart rate"
                     ],
-                    correct: 2,
-                    rationale: "Actually, it's hypotonic once dextrose is metabolized."
+                    correct: 1,
+                    rationale: "Improved skin turgor indicates successful rehydration as tissues regain normal fluid content."
                 },
                 {
                     id: 176,
-                    question: "Labs: K 2.9 mEq/L, Mg 1.5 mg/dL, digoxin level 1.8 ng/mL. What rhythm is most concerning?",
+                    question: "A patient needs to limit sodium intake. Which seasoning is acceptable?",
                     options: [
-                        "Atrial flutter",
-                        "Junctional bradycardia 52 bpm",
-                        "Bigeminal PVCs",
-                        "First-degree AV block"
+                        "Garlic powder",
+                        "Soy sauce",
+                        "Seasoned salt",
+                        "Bouillon cubes"
                     ],
-                    correct: 2,
-                    rationale: "Hypokalemia and borderline low magnesium enhance digoxin toxicity, causing ventricular ectopy."
+                    correct: 0,
+                    rationale: "Garlic powder is sodium-free. Soy sauce, seasoned salt, and bouillon are all high in sodium."
                 },
                 {
                     id: 177,
-                    question: "A client receives IV insulin for hyperkalemia. Which additional medication must be at the bedside?",
+                    question: "The nurse prepares to administer calcium gluconate. Which assessment is priority?",
                     options: [
-                        "Calcium chloride",
-                        "50% dextrose ampule",
-                        "Sodium bicarbonate",
-                        "Furosemide"
+                        "Blood pressure",
+                        "Heart rate and rhythm",
+                        "Temperature",
+                        "Respiratory pattern"
                     ],
                     correct: 1,
-                    rationale: "Insulin drives glucose and potassium into cells; dextrose prevents hypoglycemia."
+                    rationale: "Calcium directly affects cardiac function. Monitor heart rate and rhythm before and during calcium administration."
                 },
                 {
                     id: 178,
-                    question: "Findings suggesting hypocalcemia include: (Select all that apply)",
+                    question: "A patient with hypophosphatemia might have difficulty:",
                     options: [
-                        "Positive Trousseau sign",
-                        "Numbness of lips",
-                        "Absent DTRs",
-                        "Hyperactive bowel sounds",
-                        "Shortened QT interval"
+                        "Sleeping",
+                        "Digesting fats",
+                        "Breathing",
+                        "Urinating"
                     ],
-                    correct: 0, // Note: SATA question
-                    rationale: "Positive Trousseau sign, paresthesias, and increased neuromuscular excitability (including GI) are classic."
+                    correct: 2,
+                    rationale: "Severe hypophosphatemia can cause respiratory muscle weakness and difficulty breathing."
                 },
                 {
                     id: 179,
-                    question: "A patient with chronic kidney disease reports pruritus; phosphorus 6.2 mg/dL, calcium 8.4 mg/dL. Best pharmacologic intervention?",
+                    question: "Which fluid is appropriate for a patient who is NPO?",
                     options: [
-                        "IV calcium gluconate",
-                        "Oral sevelamer with meals",
-                        "High-dose vitamin D injection",
-                        "Phosphate-free antacid PRN"
+                        "Ice chips as desired",
+                        "IV fluids as ordered",
+                        "Small sips of water",
+                        "Clear liquids only"
                     ],
                     correct: 1,
-                    rationale: "Phosphate binders taken with meals prevent dietary phosphate absorption, relieving uremic pruritus."
+                    rationale: "NPO means nothing by mouth. Only IV fluids as ordered are appropriate for NPO patients."
                 },
                 {
                     id: 180,
-                    question: "Serum magnesium 5.4 mg/dL in a pre-eclampsia patient on magnesium sulfate. Which change is priority?",
+                    question: "The nurse assesses pitting edema by:",
                     options: [
-                        "Discontinue infusion and give calcium gluconate",
-                        "Slow infusion by half",
-                        "Obtain stat magnesium level in 1 h",
-                        "Increase IV fluids to flush kidneys"
+                        "Measuring limb circumference",
+                        "Pressing on the swollen area",
+                        "Checking skin temperature",
+                        "Testing capillary refill"
                     ],
-                    correct: 0,
-                    rationale: "Toxic magnesium levels require immediate discontinuation and calcium gluconate as antidote."
+                    correct: 1,
+                    rationale: "Pitting edema is assessed by pressing on the swollen area and observing for an indentation that remains."
                 },
                 {
                     id: 181,
-                    question: "A client with Addison disease presents with K 5.5 mEq/L, Na 131 mEq/L. Which ordered fluid most directly addresses both abnormalities?",
+                    question: "A patient's serum calcium is 7.8 mg/dL. The nurse expects to administer:",
                     options: [
-                        "D5W",
-                        "0.9% NaCl with hydrocortisone",
-                        "0.45% NaCl",
-                        "Lactated Ringer's"
+                        "Vitamin D",
+                        "Calcium gluconate IV",
+                        "Phosphate supplements",
+                        "Loop diuretics"
                     ],
                     correct: 1,
-                    rationale: "Isotonic saline replaces sodium; hydrocortisone corrects mineralocorticoid deficiency causing hyperkalemia."
+                    rationale: "Severe hypocalcemia (Ca++ <8.5) requires IV calcium gluconate for rapid correction."
                 },
                 {
                     id: 182,
-                    question: "Which sequence reflects proper emergency management of serum K 6.8 mEq/L with peaked T-waves? 1) Give calcium gluconate 2) Administer insulin + dextrose 3) Kayexalate PO/PR",
+                    question: "Which electrolyte works closely with calcium?",
                     options: [
-                        "1-2-3",
-                        "2-1-3",
-                        "3-2-1",
-                        "1-3-2"
+                        "Sodium",
+                        "Potassium",
+                        "Phosphorus",
+                        "Chloride"
                     ],
-                    correct: 0,
-                    rationale: "Calcium protects heart immediately, insulin shifts K+ into cells, Kayexalate removes K+ from body."
+                    correct: 2,
+                    rationale: "Phosphorus and calcium have an inverse relationship - when one is high, the other tends to be low."
                 },
                 {
                     id: 183,
-                    question: "Post-thyroidectomy Ca 7.6 mg/dL and voice hoarseness are noted. Interpretation?",
+                    question: "The nurse should monitor for signs of fluid overload when administering:",
                     options: [
-                        "Hoarseness from intubation injury; monitor",
-                        "Laryngospasm risk from hypocalcemia; treat IV Ca",
-                        "Hypercalcemia masked by hoarseness",
-                        "Unrelated findings"
+                        "Oral medications",
+                        "IV antibiotics in 50 mL",
+                        "Blood transfusion",
+                        "Subcutaneous insulin"
                     ],
-                    correct: 1,
-                    rationale: "Laryngospasm risk from hypocalcemia; treat IV Ca"
+                    correct: 2,
+                    rationale: "Blood transfusions add significant volume and can cause fluid overload, especially in patients with cardiac or kidney problems."
                 },
                 {
                     id: 184,
-                    question: "Which dietary change helps prevent recurrent calcium-oxalate kidney stones?",
+                    question: "A patient with hypokalemia is placed on cardiac monitoring because low potassium can cause:",
                     options: [
-                        "Omit spinach and nuts; maintain normal Ca intake",
-                        "Avoid dairy entirely",
-                        "Increase vitamin C to acidify urine",
-                        "Restrict sodium to 0.5 g/day only"
+                        "Hypertension",
+                        "Bradycardia only",
+                        "Dangerous arrhythmias",
+                        "Increased cardiac output"
                     ],
-                    correct: 0,
-                    rationale: "Omit spinach and nuts; maintain normal Ca intake"
+                    correct: 2,
+                    rationale: "Hypokalemia can cause life-threatening cardiac arrhythmias due to altered cardiac conduction."
                 },
                 {
                     id: 185,
-                    question: "A patient on amphotericin B has K 3.1 mEq/L and Mg 1.3 mg/dL. Why should magnesium be replaced first?",
+                    question: "Which symptom indicates hypercalcemia?",
                     options: [
-                        "Prevents nephrotoxicity",
-                        "Enables effective potassium uptake",
-                        "Reduces infusion-related chills",
-                        "Stabilizes serum sodium"
+                        "Muscle spasms",
+                        "Hyperactive reflexes",
+                        "Constipation",
+                        "Diarrhea"
                     ],
-                    correct: 1,
-                    rationale: "Enables effective potassium uptake"
+                    correct: 2,
+                    rationale: "Hypercalcemia decreases smooth muscle activity in the GI tract, causing constipation."
                 },
                 {
                     id: 186,
-                    question: "Which symptoms fit hypernatremia?",
+                    question: "The nurse is hanging a new IV bag. The first action should be:",
                     options: [
-                        "Headache, lethargy, seizures",
-                        "Tetany, circumoral tingling",
-                        "Bounding peripheral pulses, edema",
-                        "Widened QRS, bradycardia"
+                        "Spike the bag",
+                        "Check patient identification",
+                        "Prime the tubing",
+                        "Set the flow rate"
                     ],
-                    correct: 0,
-                    rationale: "CNS symptoms from cellular dehydration are hallmarks of hypernatremia."
+                    correct: 1,
+                    rationale: "Always verify correct patient identification before administering any medication or fluid."
                 },
                 {
                     id: 187,
-                    question: "Interventions for serum Mg 1.2 mg/dL include: (Select all that apply)",
+                    question: "A patient on fluid restriction asks for ice chips. The nurse should:",
                     options: [
-                        "Seizure precautions",
-                        "DTR assessment q2h",
-                        "Oral calcium carbonate",
-                        "IV magnesium sulfate 2 g over 1 h",
-                        "Restrict dietary bananas"
+                        "Allow unlimited ice chips",
+                        "Count ice chips as part of fluid allowance",
+                        "Refuse the request",
+                        "Give ice chips between meals only"
                     ],
-                    correct: 0, // Note: SATA question
-                    rationale: "Seizure precautions, reflex monitoring, and IV magnesium replacement are appropriate for hypomagnesemia."
+                    correct: 1,
+                    rationale: "Ice chips must be counted as fluid intake. They melt to approximately half their frozen volume."
                 },
                 {
                     id: 188,
-                    question: "ABG: pH 7.29, PaCO₂ 38 mm Hg, HCO₃⁻ 17 mEq/L; anion gap 22 mEq/L. K 5.7 mEq/L. Likely diagnosis?",
+                    question: "Which food is lowest in sodium?",
                     options: [
-                        "Diabetic ketoacidosis",
-                        "Chronic obstructive disease",
-                        "Acute diarrhea",
-                        "Salicylate toxicity"
+                        "Canned corn",
+                        "Fresh apple",
+                        "Cheese",
+                        "Lunch meat"
                     ],
-                    correct: 0,
-                    rationale: "High anion gap metabolic acidosis with hyperkalemia suggests DKA."
+                    correct: 1,
+                    rationale: "Fresh fruits like apples are naturally low in sodium. Processed foods are typically high in sodium."
                 },
                 {
                     id: 189,
-                    question: "An oncology client on cisplatin has phosphate 1.6 mg/dL; calcium 9.8 mg/dL. First teaching point?",
+                    question: "A patient with chronic kidney disease is at risk for:",
                     options: [
-                        "Increase intake of dairy, meats, legumes",
-                        "Restrict fluids to 1 L/day",
-                        "Expect muscle weakness until chemo ends",
-                        "Limit vitamin D supplements"
+                        "Hypokalemia",
+                        "Hyperkalemia",
+                        "Hypocalcemia only",
+                        "Hyponatremia only"
                     ],
-                    correct: 0,
-                    rationale: "Increase intake of dairy, meats, legumes"
+                    correct: 1,
+                    rationale: "Kidney disease impairs potassium excretion, leading to dangerous hyperkalemia."
                 },
                 {
                     id: 190,
-                    question: "A continuous ECG monitor shows short QT interval and occasional heart block. Calcium 11.8 mg/dL, phosphate 2.1 mg/dL. Which IV medication corrects underlying cause fastest?",
+                    question: "The nurse notes 3+ pitting edema. This means the indentation:",
                     options: [
-                        "Pamidronate",
-                        "Calcitonin",
-                        "Furosemide",
-                        "Normal saline bolus"
+                        "Disappears immediately",
+                        "Lasts 5-10 seconds",
+                        "Lasts 10-15 seconds",
+                        "Lasts more than 15 seconds"
                     ],
-                    correct: 1,
-                    rationale: "Calcitonin rapidly lowers calcium within hours; bisphosphonates take days."
+                    correct: 2,
+                    rationale: "3+ pitting edema creates a deep indentation that lasts 10-15 seconds before returning to normal."
                 },
                 {
                     id: 191,
-                    question: "A 5-ft-6-in (168 cm), 60 kg adult needs IM ketorolac 30 mg. Viscosity is normal. Optimal site and volume?",
+                    question: "Which patient needs increased fluid intake?",
                     options: [
-                        "Deltoid, 1 mL",
-                        "Vastus lateralis, 3 mL",
-                        "Dorsogluteal, 4 mL",
-                        "Ventrogluteal, 4 mL"
+                        "Heart failure patient",
+                        "Patient with kidney stones",
+                        "Patient with fluid overload",
+                        "Patient on fluid restriction"
                     ],
-                    correct: 0,
-                    rationale: "Small volume medication in average adult can use deltoid site."
+                    correct: 1,
+                    rationale: "Increased fluid intake helps flush kidney stones and prevent new stone formation."
                 },
                 {
                     id: 192,
-                    question: "Needle size for subcutaneous enoxaparin 40 mg?",
+                    question: "A patient's IV infiltrates. The nurse documents:",
                     options: [
-                        "21-gauge 1½ in",
-                        "25-gauge ⅝ in",
-                        "18-gauge 1 in",
-                        "30-gauge ½ in"
+                        "IV patent and functioning well",
+                        "IV discontinued, site cool and swollen",
+                        "IV site warm and red",
+                        "IV infusing without difficulty"
                     ],
                     correct: 1,
-                    rationale: "25-gauge ⅝ in"
+                    rationale: "Documentation should include that the IV was discontinued and describe the site (cool and swollen with infiltration)."
                 },
                 {
                     id: 193,
-                    question: "Sequence for drawing blood cultures and CBC from single stick: 1) Apply tourniquet 2) Clean site 30 sec 3) Draw cultures 4) Draw CBC 5) Release tourniquet 6) Label specimens",
+                    question: "The normal serum phosphorus range is:",
                     options: [
-                        "1-2-3-4-5-6",
-                        "2-1-3-4-5-6",
-                        "1-2-4-3-5-6",
-                        "1-2-5-3-4-6"
+                        "1.5-2.5 mg/dL",
+                        "2.5-4.5 mg/dL",
+                        "8.5-10.5 mg/dL",
+                        "135-145 mg/dL"
                     ],
-                    correct: 0,
-                    rationale: "Standard sequence prevents contamination of sterile culture bottles."
+                    correct: 1,
+                    rationale: "Normal serum phosphorus is 2.5-4.5 mg/dL."
                 },
                 {
                     id: 194,
-                    question: "An IV catheter tip cultured for infection grows Staph. aureus. Most likely contributing factor?",
+                    question: "A patient receiving potassium IV complains of burning at the site. The nurse should:",
                     options: [
-                        "Catheter remained 7 days in antecubital site",
-                        "Flushed with heparin every 8 h",
-                        "Transparent dressing changed q48 h",
-                        "Site rotated up the arm"
+                        "Speed up the infusion",
+                        "Apply heat to the site",
+                        "Slow the infusion rate",
+                        "Remove the IV immediately"
                     ],
-                    correct: 0,
-                    rationale: "Extended dwell time increases infection risk, especially at flexion points."
+                    correct: 2,
+                    rationale: "IV potassium can cause irritation and burning. Slowing the rate decreases discomfort while maintaining therapy."
                 },
                 {
                     id: 195,
-                    question: "Which sign differentiates infiltration from phlebitis?",
+                    question: "Which electrolyte is most important for muscle contraction?",
                     options: [
-                        "Erythema tracking vein path",
-                        "Cool, edematous skin at site",
-                        "Palpable cord",
-                        "Purulent drainage"
+                        "Sodium",
+                        "Calcium",
+                        "Chloride",
+                        "Bicarbonate"
                     ],
                     correct: 1,
-                    rationale: "Cool, edematous skin at site"
+                    rationale: "Calcium is essential for muscle contraction and relaxation."
                 },
                 {
                     id: 196,
-                    question: "A patient with sinusitis asks when to seek antibiotics. Best response:",
+                    question: "A patient is on a 1500 mL fluid restriction. How should this be distributed?",
                     options: [
-                        "If symptoms persist beyond 10 days with purulent drainage.",
-                        "Start antibiotics whenever fever appears.",
-                        "Use antibiotics at first sign of headache.",
-                        "Antibiotics prevent viral colds from worsening."
+                        "500 mL each shift",
+                        "All fluids in morning",
+                        "750 mL days, 750 mL nights",
+                        "More during day shift for meals and medications"
                     ],
-                    correct: 0,
-                    rationale: "If symptoms persist beyond 10 days with purulent drainage."
+                    correct: 3,
+                    rationale: "Most fluids should be allocated to day shift when patients take most medications and eat meals."
                 },
                 {
                     id: 197,
-                    question: "Teaching points for a client with rhinovirus include all except",
+                    question: "The nurse teaches that normal saline contains:",
                     options: [
-                        "Increase fluid intake to loosen mucus",
-                        "Hand hygiene prevents spread",
-                        "Finish prescribed amoxicillin course",
-                        "Rest promotes recovery"
+                        "5% dextrose",
+                        "0.9% sodium chloride",
+                        "0.45% sodium chloride",
+                        "Lactated Ringer's solution"
                     ],
-                    correct: 2,
-                    rationale: "Rhinovirus is viral; antibiotics are inappropriate."
+                    correct: 1,
+                    rationale: "Normal saline is 0.9% sodium chloride, an isotonic solution."
                 },
                 {
                     id: 198,
-                    question: "Order: Ceftriaxone 1.2 g IM every 24 h. Vial reads \"1 g add 3.6 mL sterile water = 250 mg/mL.\" How many millilitres will the nurse draw?",
+                    question: "A patient with fluid volume deficit would likely have:",
                     options: [
-                        "3.6 mL",
-                        "4.8 mL",
-                        "2.9 mL",
-                        "5.2 mL"
+                        "Decreased hematocrit",
+                        "Increased hematocrit",
+                        "Normal hematocrit",
+                        "Fluctuating hematocrit"
                     ],
-                    correct: 2,
-                    rationale: "1200 mg ÷ 250 mg/mL = 4.8 mL; but vial limit per IM in one site is 3 mL, so dose must be split—nurse draws 2.9 mL for each of two sites."
+                    correct: 1,
+                    rationale: "Fluid volume deficit causes hemoconcentration, resulting in increased hematocrit."
                 },
                 {
                     id: 199,
-                    question: "Child weighs 18 lb. Order: Cefazolin 50 mg/kg/day divided q8h IV. Vial reconstituted 100 mg/mL. Volume per dose?",
+                    question: "Which assessment is most important before giving potassium?",
                     options: [
-                        "1.3 mL",
-                        "2.0 mL",
-                        "0.8 mL",
-                        "1.8 mL"
+                        "Blood pressure",
+                        "Temperature",
+                        "Urine output",
+                        "Skin turgor"
                     ],
-                    correct: 0,
-                    rationale: "18 lb ÷ 2.2 = 8.18 kg; daily dose = 409 mg; q8h = 136 mg; 136 mg ÷ 100 mg/mL ≈ 1.36 mL → 1.3 mL"
+                    correct: 2,
+                    rationale: "Adequate urine output (at least 30 mL/hr) ensures the kidneys can excrete excess potassium."
                 },
                 {
                     id: 200,
-                    question: "IV set 15 gtt/mL. Infuse 750 mL over 6 h. Drops per minute?",
+                    question: "The nurse knows that 1 liter equals:",
                     options: [
-                        "21 gtt/min",
-                        "31 gtt/min",
-                        "25 gtt/min",
-                        "35 gtt/min"
+                        "100 mL",
+                        "500 mL",
+                        "1000 mL",
+                        "2000 mL"
                     ],
-                    correct: 1,
-                    rationale: "750 mL ÷ 6 h = 125 mL/h; 125 × 15 ÷ 60 = 31.25"
+                    correct: 2,
+                    rationale: "1 liter = 1000 mL. This conversion is essential for calculating fluid balance."
                 }
             ]
-        };      
+        };
         // Quiz State Variables
         let currentPart = 1;
         let currentQuestionIndex = 0;
@@ -2965,12 +2955,12 @@
             secondsElapsed = 0;
             showingRationale = false;
             isReviewMode = false;
-            
+
             document.getElementById('landingPage').style.display = 'none';
             document.getElementById('quizPage').style.display = 'block';
             document.getElementById('partTitle').textContent = `Part ${part}`;
             document.getElementById('totalQuestions').textContent = '50';
-            
+
             startTimer();
             renderQuestionNavigator();
             showQuestion();
@@ -2989,31 +2979,32 @@
             const hours = Math.floor(secondsElapsed / 3600);
             const minutes = Math.floor((secondsElapsed % 3600) / 60);
             const seconds = secondsElapsed % 60;
-            
+
             const display = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
             document.getElementById('timer').textContent = display;
         }
 
         // Question Display Functions
         function showQuestion() {
-            const questions = currentPart === 1 ? quizData.part1 : quizData.part2;
+            const questions = currentPart === 1 ? quizData.part1 :
+                (currentPart === 2 ? quizData.part2 : quizData.part3);
             const question = questions[currentQuestionIndex];
-            
+
             // Reset state for new question
             showingRationale = false;
             selectedAnswer = userAnswers[currentQuestionIndex] !== undefined ? userAnswers[currentQuestionIndex] : null;
-            
+
             document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
             document.getElementById('percentComplete').textContent = Math.round(((currentQuestionIndex + 1) / 50) * 100);
             document.getElementById('questionText').textContent = question.question;
-            
+
             renderOptions(question);
             updateNavigationButtons();
             updateQuestionNavigator();
-            
+
             // Hide rationale box when showing new question
             document.getElementById('rationaleBox').style.display = 'none';
-            
+
             // If in review mode and question was answered, show the rationale
             if (isReviewMode && userAnswers[currentQuestionIndex] !== undefined) {
                 // Delay showing rationale to ensure options are rendered first
@@ -3024,16 +3015,16 @@
         function renderOptions(question) {
             const container = document.getElementById('optionsContainer');
             container.innerHTML = '';
-            
+
             question.options.forEach((option, index) => {
                 const optionDiv = document.createElement('div');
                 optionDiv.className = 'option';
-                
+
                 // Only show selected state if not showing rationale
                 if (!showingRationale && userAnswers[currentQuestionIndex] === index) {
                     optionDiv.classList.add('selected');
                 }
-                
+
                 // Only show correct/incorrect if showing rationale for current question
                 if (showingRationale) {
                     if (index === question.correct) {
@@ -3041,24 +3032,24 @@
                     } else if (userAnswers[currentQuestionIndex] === index && index !== question.correct) {
                         optionDiv.classList.add('incorrect');
                     }
-                    
+
                     // Update selected state during rationale
                     if (userAnswers[currentQuestionIndex] === index) {
                         optionDiv.classList.add('selected');
                     }
                 }
-                
+
                 optionDiv.onclick = () => {
                     if (!showingRationale && !isReviewMode) {
                         selectAnswer(index);
                     }
                 };
-                
+
                 optionDiv.innerHTML = `
                     <span class="option-label">${String.fromCharCode(65 + index)}</span>
                     <span class="option-text">${option}</span>
                 `;
-                
+
                 container.appendChild(optionDiv);
             });
         }
@@ -3066,7 +3057,7 @@
         function selectAnswer(index) {
             selectedAnswer = index;
             userAnswers[currentQuestionIndex] = index;
-            
+
             // Update option display
             document.querySelectorAll('.option').forEach((opt, i) => {
                 opt.classList.remove('selected');
@@ -3074,29 +3065,30 @@
                     opt.classList.add('selected');
                 }
             });
-            
+
             // Auto-show rationale after selection
             setTimeout(() => showRationale(), 500);
         }
 
         function showRationale() {
-            const questions = currentPart === 1 ? quizData.part1 : quizData.part2;
+            const questions = currentPart === 1 ? quizData.part1 :
+                (currentPart === 2 ? quizData.part2 : quizData.part3);
             const question = questions[currentQuestionIndex];
-            
+
             showingRationale = true;
-            
+
             // Store result for question navigator
             if (!isReviewMode && questionResults[currentQuestionIndex] === undefined) {
                 questionResults[currentQuestionIndex] = userAnswers[currentQuestionIndex] === question.correct;
             }
-            
+
             // Re-render options with correct/incorrect states
             renderOptions(question);
-            
+
             // Show rationale box
             document.getElementById('rationaleText').textContent = question.rationale;
             document.getElementById('rationaleBox').style.display = 'block';
-            
+
             updateQuestionNavigator();
         }
 
@@ -3109,8 +3101,9 @@
         }
 
         function nextQuestion() {
-            const questions = currentPart === 1 ? quizData.part1 : quizData.part2;
-            
+            const questions = currentPart === 1 ? quizData.part1 :
+                (currentPart === 2 ? quizData.part2 : quizData.part3);
+
             if (currentQuestionIndex < questions.length - 1) {
                 currentQuestionIndex++;
                 showQuestion();
@@ -3128,10 +3121,11 @@
         function updateNavigationButtons() {
             const prevButton = document.getElementById('prevButton');
             const nextButton = document.getElementById('nextButton');
-            const questions = currentPart === 1 ? quizData.part1 : quizData.part2;
-            
+            const questions = currentPart === 1 ? quizData.part1 :
+                (currentPart === 2 ? quizData.part2 : quizData.part3);
+
             prevButton.disabled = currentQuestionIndex === 0;
-            
+
             if (currentQuestionIndex === questions.length - 1) {
                 nextButton.textContent = 'Finish →';
                 nextButton.classList.add('submit-button');
@@ -3145,7 +3139,7 @@
         function renderQuestionNavigator() {
             const grid = document.getElementById('questionGrid');
             grid.innerHTML = '';
-            
+
             for (let i = 0; i < 50; i++) {
                 const numberDiv = document.createElement('div');
                 numberDiv.className = 'question-number';
@@ -3157,18 +3151,19 @@
 
         function updateQuestionNavigator() {
             const numbers = document.querySelectorAll('.question-number');
-            const questions = currentPart === 1 ? quizData.part1 : quizData.part2;
-            
+            const questions = currentPart === 1 ? quizData.part1 :
+                (currentPart === 2 ? quizData.part2 : quizData.part3);
+
             numbers.forEach((num, index) => {
                 num.classList.remove('current', 'answered', 'correct', 'incorrect');
-                
+
                 if (index === currentQuestionIndex) {
                     num.classList.add('current');
                 }
-                
+
                 if (userAnswers[index] !== undefined) {
                     num.classList.add('answered');
-                    
+
                     // Show correct/incorrect in review mode or for completed questions
                     if (isReviewMode || questionResults[index] !== undefined) {
                         const question = questions[index];
@@ -3185,23 +3180,24 @@
         // Results Functions
         function showResults() {
             if (timerInterval) clearInterval(timerInterval);
-            
-            const questions = currentPart === 1 ? quizData.part1 : quizData.part2;
+
+            const questions = currentPart === 1 ? quizData.part1 :
+                (currentPart === 2 ? quizData.part2 : quizData.part3);
             let correctCount = 0;
-            
+
             questions.forEach((question, index) => {
                 if (userAnswers[index] === question.correct) {
                     correctCount++;
                 }
             });
-            
+
             const percentage = Math.round((correctCount / 50) * 100);
-            
+
             document.getElementById('quizPage').style.display = 'none';
             document.getElementById('resultsPage').style.display = 'block';
-            
+
             document.getElementById('scoreDisplay').textContent = `${correctCount}/50`;
-            
+
             let message = '';
             if (percentage >= 90) {
                 message = 'Excellent work! You have mastered this material!';
@@ -3212,7 +3208,7 @@
             } else {
                 message = 'Keep studying! Focus on understanding the rationales for each question.';
             }
-            
+
             document.getElementById('scoreMessage').textContent = message;
         }
 
@@ -3236,4 +3232,5 @@
         }
     </script>
 </body>
+
 </html>
